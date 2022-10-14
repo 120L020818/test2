@@ -1,15 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<!--  <router-link to="/login">登陆</router-link>-->
+<!--  <router-link to="/register">注册</router-link>-->
+<!--  <router-link to="/agreement">协议</router-link>-->
+<!--  <router-link to="/temp">Temp</router-link>-->
+  <router-view></router-view>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {useStore} from "@/store";
 
+// import HelloWorld from './components/HelloWorld.vue'
+// import myLogin from "@/components/MyLogin";
+// import myRegister from "@/components/MyRegister";
+// import myAgreement from "@/components/MyAgreement";
+// import router from "@/router";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  // setup(props){
+  //   const store = useStore()
+  //   return {
+  //     store,
+  //   }
+  // },
+  mounted() {
+    this.$router.replace({name:'login'})
   }
 }
 </script>
@@ -21,6 +37,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
