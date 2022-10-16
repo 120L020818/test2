@@ -4,6 +4,7 @@ const APIS={
     login:"api/login",
     ecode:"api/ecode",
     register:"api/register",
+    self:"api/self",
 }
 
 for(const i in APIS){
