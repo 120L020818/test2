@@ -1,18 +1,19 @@
 <template>
+<!--  "您已注册成功!点击跳转"-->
   <el-dialog
       v-model="dialogVisible"
-      title="您已注册成功!点击跳转"
+      :title=message
       width="30%">
     <!--      :before-close="handleClose" -->
     <template #footer>
       <span class="dialog-footer">
 <!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
-        <el-button type="primary" @click="dialogVisible = false"
-        >跳转</el-button>
+        <el-button type="primary" @click="jump"
+        >{{ innerMessage }}</el-button>
       </span>
     </template>
   </el-dialog>
-
+<!--dialogVisible = false-->
   <div class="beg-login-bg">
 
     <div id="app1">
@@ -88,6 +89,7 @@ import createCode from "@/modules/method";
 import {ElButton, ElRow, ElSpace, ElProgress,ElDialog,} from "element-plus";
 import axios from "axios";
 import APIS from "../modules/api";
+import {useStore} from "@/store/index";
 
 export default {
   data: () => ({
@@ -106,11 +108,15 @@ export default {
     phoneNumber: "",
     birthDate: "1980-01-01",
     dialogVisible:false,
+
+    store:useStore(),
+    message:"",
+    innerMessage:"",
   }),
   components: {ElProgress, ElSpace,ElDialog,},
   mounted() {
     this.trueCaptcha = createCode(5);
-
+    this.trueEmailCode=createCode(23);
     this.percent = 0;
     this.colors = "#f56c6c";
   },
@@ -119,6 +125,16 @@ export default {
       this.trueCaptcha = createCode(5);
       console.log(this.trueCaptcha);
       // return this.trueCaptcha;
+    },
+    jump(){
+      if(this.message==="您已注册成功!点击跳转"){
+        this.$router.replace({name: 'index'})
+      }
+
+      this.captcha = "";
+      this.trueCaptcha = createCode(5);
+      this.dialogVisible=false;
+      this.message="";
     },
     checkPassword() {
       var innerPass = this.password;
@@ -167,25 +183,6 @@ export default {
         this.Content = "密码超级安全!"
       }
     },
-
-    onLoginClick() {
-      axios.get(APIS.login, {
-        params: {
-          username: this.username,
-          password: this.password,
-          captcha: this.captcha
-        }
-      }).then(res => {
-        console.log(res.data)
-      }).catch(reason => {
-        console.log(reason);
-      }).finally(() => {
-        console.log("FINALLY");
-      })
-
-      this.$router.push({name: 'index'})
-    },
-
     sendMyEmail() {
       console.log(this.email);
       axios.post(APIS.ecode, {
@@ -198,8 +195,6 @@ export default {
       })
     },
     terLogin() {
-      this.dialogVisible=true;
-
       /**
        *  判断是否能注册
        *  用户名:前端没有要求,后端需要验证合法性
@@ -211,35 +206,66 @@ export default {
        *  e-验证:必须满足,即emailCode==trueEmailCode
        *  验证码验证:必须满足,即captcha==trueCaptcha
        *  最后的勾选框也要选上isChecked==true
+       *  手机号的正则^1[3456789]\d{9}$
        * @type {number}
        */
       var flag1 = 0;
       if (this.percent >= 40) {
         flag1 = 1;
       }
+      else{
+        this.message="密码强度不足!请更换密码!\n";
+      }
+
       var flag2 = 0;
       if(this.captcha===this.trueCaptcha){
         flag2=1;
+      }else{
+        this.message+="验证码输入错误!\n";
       }
+
       var flag3=0;
       if(this.emailCode===this.trueEmailCode){
         flag3=1;
+      }else{
+        this.message+="邮箱验证码输入错误!\n";
       }
-      if(flag1&&flag2&&flag3){
+
+      var flag4=0;
+      var reg=/^1[3456789]\d{9}$/
+      if(this.phoneNumber.match(reg)){
+        flag4=1;
+      }else{
+        this.message+="手机号格式有误!\n";
+      }
+      console.log(flag4);
+
+      if(flag1&&flag2&&flag3&&flag4){
         axios.post(APIS.register, {
           username:this.username,
-          sex:this.sex==="man"?1:0,
+          sex:this.sex==="man"?"1":"0",
           password:this.password,
           birthday:this.birthDate,
           phone:this.phoneNumber,
           email: this.email,
         }).then(res => {
           if(res.data.success===true){
-            console.log(res.data);
+            console.log(res)
+            this.innerMessage="跳转";
+            this.message="您已注册成功!点击跳转";
+            this.store.username=this.username;
+            this.dialogVisible=true;
+          }else if(res.data.success===false&&res.data.hasB4===true){
+            this.innerMessage="确认";
+            this.message="用户名冲突,请更换用户名!";
+            this.dialogVisible=true;
           }
         }).catch(reason => {
         }).finally(() => {
         })
+      }else{
+        this.innerMessage="确认"
+        this.dialogVisible=true;
       }
 
 

@@ -58,7 +58,7 @@
                 <el-icon>
                   <Star/>
                 </el-icon>
-                <span>功能列表{{store.count}}</span>
+                <span>功能列表</span>
               </template>
               <el-menu-item-group>
 <!--                <template #title>Group 1</template>-->
@@ -263,6 +263,9 @@ export default {
     },onclick7() {
       this.$router.push({name: 'caSelf'});
     },onclick8() {
+      console.log("看这里:"+this.store.username);
+      this.store.$reset();
+      console.log("看这里:"+this.store.username);
       this.$router.replace({name: 'login'});
     }
   }

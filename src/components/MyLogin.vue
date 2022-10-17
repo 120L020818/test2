@@ -1,44 +1,59 @@
 <template>
+  <el-dialog
+      v-model="dialogVisible"
+      :title=message
+      width="30%">
+    <!--      :before-close="handleClose" -->
+    <template #footer>
+      <span class="dialog-footer">
+<!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
+        <el-button type="primary" @click="clear"
+        >确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
+
   <div class="beg-login-bg">
     <div class="beg-top-title">欢迎使用天际CA系统！</div>
     <div class="beg-login-box">
-    <el-space direction="vertical">
-      <el-input prefix-icon="UserFilled" v-model="username" class="w-50 m-2" placeholder="请输入用户名:"  />
-      <el-input prefix-icon="Lock" v-model="password" class="w-50 m-2"  type="password" placeholder="请输入密码:" show-password/>
-      <el-input prefix-icon="HelpFilled" v-model="captcha" class="w-50 m-2" placeholder="请输入验证码:" />
-      <div id="checkCode" class="code" @click="shuffleCode">{{ trueCaptcha }}</div>
+      <el-space direction="vertical">
+        <el-input prefix-icon="UserFilled" v-model="username" class="w-50 m-2" placeholder="请输入用户名:"/>
+        <el-input prefix-icon="Lock" v-model="password" class="w-50 m-2" type="password" placeholder="请输入密码:"
+                  show-password/>
+        <el-input prefix-icon="HelpFilled" v-model="captcha" class="w-50 m-2" placeholder="请输入验证码:"/>
+        <div id="checkCode" class="code" @click="shuffleCode">{{ trueCaptcha }}</div>
 
-      <br>
+        <br>
 
-<!--      <el-row class="mb-2">-->
-      <el-space wrap>
-        <el-button type="primary" size="large" plain  @click="onLoginClick">
-          <el-icon >
-            <Check/>
-          </el-icon>
-          <span>
+        <!--      <el-row class="mb-2">-->
+        <el-space wrap>
+          <el-button type="primary" size="large" plain @click="onLoginClick">
+            <el-icon>
+              <Check/>
+            </el-icon>
+            <span>
             登陆
           </span>
-        </el-button>
-        <el-button type="success" size="large" plain  @click="onRegClick">
-          <el-icon >
-            <Edit/>
-          </el-icon>
-          <span>
+          </el-button>
+          <el-button type="success" size="large" plain @click="onRegClick">
+            <el-icon>
+              <Edit/>
+            </el-icon>
+            <span>
             注册
           </span>
-        </el-button>
-<!--      </el-row>-->
+          </el-button>
+          <!--      </el-row>-->
+        </el-space>
       </el-space>
-    </el-space>
     </div>
   </div>
 </template>
 
 
 <script>
-import { Edit,  Search  ,Lock,Unlock,Check} from '@element-plus/icons-vue'
-import {ElButton,ElInput,ElSpace,ElIcon} from 'element-plus'
+import {Edit, Search, Lock, Unlock, Check} from '@element-plus/icons-vue'
+import {ElButton, ElInput, ElSpace, ElIcon} from 'element-plus'
 // import {Upload,Check} from '@element-plus/icons-vue'
 
 import axios from "axios";
@@ -53,50 +68,62 @@ export default {
     password: "",
     captcha: "",
     trueCaptcha: "",
-    store:useStore(),
+
+
+    store: useStore(),
+    dialogVisible: false,
+    message: "",
   }),
-  // setup(){
-  //   const store = useStore()
-  //   return {
-  //     store,
-  //   }
-  // },
-  // Delete, Share, Upload, Edit, Search
-  components: {ElButton,ElInput,ElSpace,ElIcon,Edit,Check},
+  components: {ElButton, ElInput, ElSpace, ElIcon, Edit, Check},
   mounted() {
     this.trueCaptcha = createCode(5);
   },
   methods: {
+    clear() {
+      if(this.message==="登陆成功!"){
+        this.$router.replace({name: 'index'})
+      }
+      this.captcha = "";
+      this.trueCaptcha = createCode(5);
+      this.dialogVisible=false;
+      this.message="";
+    },
     shuffleCode() {
       this.trueCaptcha = createCode(5);
       return this.trueCaptcha;
     },
     onLoginClick() {
-      axios.post(APIS.login, {
+      if (this.captcha === this.trueCaptcha) {
+        axios.post(APIS.login, {
           username: this.username,
           password: this.password,
           captcha: this.captcha
-      }).then(res => {
-        console.log(res.data);
-        if(res.data.success===true&&res.data.isAdmin===false){
-          this.store.username=this.username;
-          this.$router.replace({name: 'index'})
-        }
-        else if(res.data.success===true&&res.data.isAdmin===true){
-          console.log("你是管理员")
-        }
-      }).catch(reason => {
-        console.log(reason);
-      }).finally(() => {
-        console.log("FINALLY");
-      })
+        }).then(res => {
+          console.log(res.data);
+          if (res.data.success === true && res.data.isAdmin === false) {
+            this.message="登陆成功!";
+            this.dialogVisible = true;
 
-
+            this.store.username = this.username;
+          } else if (res.data.success === true && res.data.isAdmin === true) {
+            console.log("你是管理员")
+          }else if(res.data.success===false){
+            this.message="用户名或密码错误!";
+            this.dialogVisible = true;
+          }
+        }).catch(reason => {
+          console.log(reason);
+        }).finally(() => {
+          console.log("FINALLY");
+        })
+      } else {
+        this.message = "验证码有误!";
+        this.dialogVisible = true;
+      }
     },
     onRegClick() {
       setTimeout(() => {
-        this.$router.push({name: 'register'})
-
+        this.$router.push({name: 'register'});
       }, 500);
     }
   }
