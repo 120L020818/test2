@@ -33,7 +33,7 @@
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
-              <span>欢迎使用,{{ name }}!</span>
+              <span>欢迎使用,{{ store.username }}!</span>
             </div>
           </el-col>
         </el-row>
@@ -196,16 +196,17 @@ export default {
     type: "用户系统",
     isCollapse: false,
     name: "KeQing",
+    store:useStore(),
   }),
-  setup(props){
-    const store = useStore()
-    return {
-      store,
-    }
-  },
+  // setup(props){
+  //   const store = useStore()
+  //   return {
+  //     store,
+  //   }
+  // },
 
   mounted(){
-    this.$router.push({name: 'child1'});
+    this.$router.replace({name: 'child1'});
   },
   components: {
     ElDropdownItem,
@@ -245,6 +246,8 @@ export default {
     },
     onclick1() {
       //暂时没东西
+      this.store.count++;
+      console.log(this.store.username);
       this.$router.push({name: 'child1'});
     },
     onclick2() {
@@ -260,7 +263,7 @@ export default {
     },onclick7() {
       this.$router.push({name: 'caSelf'});
     },onclick8() {
-      this.$router.push({name: 'login'});
+      this.$router.replace({name: 'login'});
     }
   }
 }

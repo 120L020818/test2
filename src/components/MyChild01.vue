@@ -3,7 +3,7 @@
     <el-col :span="6">
     </el-col>
     <el-col :span="10">
-      <div style="text-align: left">
+      <div style="text-align: left;font-family:华文新魏">
         <h1>欢迎使用天际CA管理系统!</h1>
         <h1>您正在使用的是:{{ type }};</h1>
         <h1>您可以进行如下操作:</h1>

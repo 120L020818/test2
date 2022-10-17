@@ -85,11 +85,11 @@ const router = createRouter({
         //     name:"mychild01",
         //     component: myChild01
         // },
-        // {
-        //     path: '/mychild02',
-        //     name:"mychild02",
-        //     component: myChild02
-        // },
+        {
+            path: '/mychild02',
+            name:"mychild02",
+            component: myChild02
+        },
     ]
 })
 export default router

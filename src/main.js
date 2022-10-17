@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min";
@@ -7,8 +7,8 @@ import router from "./router/index"
 import "element-plus/dist/index.css"
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import VueClipboard from "vue3-clipboard";
 import {createPinia} from "pinia"
+import VueClipboard from "vue3-clipboard";
 
 const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -17,5 +17,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 app.use(router)
     .use(ElementPlus)
-    .use(VueClipboard)
-    .use(createPinia()).mount('#app')
+    .use(createPinia())
+    .use(VueClipboard, {
+        autoSetContainer: true,
+        appendToBody: true,
+    })
+    .mount('#app')

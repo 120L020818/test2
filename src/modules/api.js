@@ -5,6 +5,7 @@ const APIS={
     ecode:"api/ecode",
     register:"api/register",
     self:"api/self",
+    request:"api/request",
 }
 
 for(const i in APIS){

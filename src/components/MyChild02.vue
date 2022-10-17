@@ -1,22 +1,27 @@
 <template>
-  <div class="beg-login-bg1"></div>
+  <div class="container">
+    <button type="button" @click="doCopy">Copy!</button>
+  </div>
 </template>
 
 <script>
+import { copyText } from 'vue3-clipboard'
+
 export default {
-  name: "MyChild02"
+  setup() {
+    const doCopy = () => {
+      copyText('Hello Clipborad', undefined, (error, event) => {
+        if (error) {
+          alert('Can not copy')
+          console.log(error)
+        } else {
+          alert('Copied')
+          console.log(event)
+        }
+      })
+    }
+
+    return { doCopy }
+  },
 }
 </script>
-
-<style scoped>
-@import "../styles/common.css";
-.beg-login-bg1 {
-  width:100%;
-  height: 100vh;
-  position: fixed;
-  /*overflow-x: hidden;*/
-  /*overflow-y: hidden;*/
-  background-size: cover !important;
-  background-image: url(../assets/bg2.png);
-}
-</style>

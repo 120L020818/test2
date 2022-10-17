@@ -3,7 +3,7 @@
       v-model="dialogVisible"
       title="您的个人信息显示如下:"
       width="30%"
-      style="font-size: 20px">
+      style="font-size: 20px;line-height:50px;text-align:center">
 
     <el-card class="box-card" style="line-height: 50px">
 <!--      <el-space direction="vertical" size="20" spacer="|">-->
@@ -49,7 +49,7 @@
     </el-card>
 <!--    <template #footer>-->
 <!--      <span class="dialog-footer">-->
-<!--&lt;!&ndash;        <el-button @click="dialogVisible = false">Cancel</el-button>&ndash;&gt;-->
+<!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
 <!--        <el-button type="primary" @click="dialogVisible = false"-->
 <!--        >确认</el-button>-->
 <!--      </span>-->

@@ -87,12 +87,17 @@ import {
   ElRow
 } from "element-plus"
 import {copyText} from "vue3-clipboard";
+import axios from "axios";
+import APIS from "@/modules/api";
+import {useStore} from "@/store/index";
 export default {
   name: "ChildCARequest",
   data: () => ({
     ID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
+
+    store:useStore(),
   }),
   components: {
     // ElSpace,
@@ -111,6 +116,19 @@ export default {
   },
   methods: {
     requestResult() {
+      // axios.post(APIS.request, {
+      //   SerialNumber:this.SerialNumber,
+      // }).then(res => {
+      //   console.log(res.data);
+      //   if(res.data.success===true){
+      //     this.$router.replace({name: 'index'});
+      //   }
+      // }).catch(reason => {
+      //   console.log(reason);
+      // }).finally(() => {
+      //   console.log("FINALLY");
+      // })
+
       this.dialogVisible = true;
     },
     copyNumber(){

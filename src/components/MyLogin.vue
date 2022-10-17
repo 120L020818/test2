@@ -44,6 +44,7 @@ import {ElButton,ElInput,ElSpace,ElIcon} from 'element-plus'
 import axios from "axios";
 import APIS from "../modules/api";
 import createCode from "@/modules/method";
+import {useStore} from "@/store/index";
 
 export default {
   name: "MyLogin",
@@ -52,7 +53,14 @@ export default {
     password: "",
     captcha: "",
     trueCaptcha: "",
+    store:useStore(),
   }),
+  // setup(){
+  //   const store = useStore()
+  //   return {
+  //     store,
+  //   }
+  // },
   // Delete, Share, Upload, Edit, Search
   components: {ElButton,ElInput,ElSpace,ElIcon,Edit,Check},
   mounted() {
@@ -71,7 +79,8 @@ export default {
       }).then(res => {
         console.log(res.data);
         if(res.data.success===true&&res.data.isAdmin===false){
-          this.$router.push({name: 'index'})
+          this.store.username=this.username;
+          this.$router.replace({name: 'index'})
         }
         else if(res.data.success===true&&res.data.isAdmin===true){
           console.log("你是管理员")
