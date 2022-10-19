@@ -189,6 +189,8 @@ import {
   ElRow,
   ElCol,
 } from "element-plus"
+import axios from "axios";
+import APIS from "@/modules/api";
 // import {RouterLink} from "vue-router"
 export default {
   name: "myIndex",
@@ -263,9 +265,15 @@ export default {
     },onclick7() {
       this.$router.push({name: 'caSelf'});
     },onclick8() {
-      console.log("看这里:"+this.store.username);
+      // console.log("看这里:"+this.store.username);
+      // console.log("看这里:"+this.store.username);
+      axios.post(APIS.logout, {
+        username:this.store.username,
+      }).then(res => {
+      }).catch(reason => {
+      }).finally(() => {
+      })
       this.store.$reset();
-      console.log("看这里:"+this.store.username);
       this.$router.replace({name: 'login'});
     }
   }

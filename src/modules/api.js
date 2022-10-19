@@ -6,6 +6,9 @@ const APIS={
     register:"api/register",
     self:"api/self",
     request:"api/request",
+    logout:"api/logout",
+    dlgen:"api/dlgen",
+    dlpro:"api/dlpro",
 }
 
 for(const i in APIS){
