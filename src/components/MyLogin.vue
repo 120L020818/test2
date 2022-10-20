@@ -80,7 +80,9 @@ export default {
   },
   methods: {
     clear() {
-      if(this.message==="登陆成功!"){
+      if(this.message==="登陆成功!"&&this.username==="admin"){
+        this.$router.replace({name: 'admin'})
+      }else if(this.message==="登陆成功!"&&this.username!=="admin"){
         this.$router.replace({name: 'index'})
       }
       this.captcha = "";
@@ -106,6 +108,10 @@ export default {
 
             this.store.username = this.username;
           } else if (res.data.success === true && res.data.isAdmin === true) {
+            this.message="登陆成功!";
+            this.store.username = this.username;
+
+            this.dialogVisible = true;
             console.log("你是管理员")
           }else if(res.data.success===false){
             this.message="用户名或密码错误!";

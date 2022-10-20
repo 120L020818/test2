@@ -20,12 +20,17 @@
 </template>
 
 <script>
+import {useStore} from "@/store/index";
 import {ElCol,ElRow} from "element-plus"
 export default {
   name: "MyChild01",
   data:()=>({
-    type: "用户系统",
+    store:useStore(),
+    type:"",
   }),
+  mounted() {
+    this.type=this.store.username === "admin" ? "管理系统" : "用户系统"
+  },
   components:{
     ElCol,
     ElRow,

@@ -161,8 +161,14 @@ export default {
   },
   methods: {
     onClick() {
-      axios.post(APIS.request, {
-        SerialNumber: this.SerialNumber,
+      axios.post(APIS.apply, {
+        username:this.username,
+        authority:this.authority,
+        justiceID:this.justiceID,
+        admin:this.admin,
+        adminphone:this.adminphone,
+        years:this.years,
+        publickey:this.publickey,
       }).then(res => {
         this.dialogVisible = true;
         console.log(res.data);

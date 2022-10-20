@@ -193,7 +193,7 @@ import axios from "axios";
 import APIS from "@/modules/api";
 // import {RouterLink} from "vue-router"
 export default {
-  name: "myIndex",
+  name: "myAdmin",
   data: () => ({
     store: useStore(),
     isCollapse: false,
@@ -201,9 +201,9 @@ export default {
   }),
 
   mounted() {
-    this.$router.replace({name: 'child1'});
+    console.log(this.type)
     this.name=this.store.username;
-
+    this.$router.replace({name: 'child1'});
   },
   components: {
     ElDropdownItem,

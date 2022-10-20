@@ -14,6 +14,7 @@ import ChildCADownload from "@/components/ChildCADownload";
 import ChildCAIsValid from "@/components/ChildCAIsValid";
 import ChildCARequest from "@/components/ChildCARequest";
 import ChildCASelf from "@/components/ChildCASelf";
+import myAdmin from "@/components/MyAdmin";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -89,6 +90,10 @@ const router = createRouter({
             path: '/mychild02',
             name:"mychild02",
             component: myChild02
+        }, {
+            path: '/admin',
+            name:"admin",
+            component: myAdmin
         },
     ]
 })

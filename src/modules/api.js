@@ -9,6 +9,10 @@ const APIS={
     logout:"api/logout",
     dlgen:"api/dlgen",
     dlpro:"api/dlpro",
+    apply:"api/apply",
+    download:"api/download",
+    isvalid:"api/isvalid",
+    cadelete:"api/cadelete",
 }
 
 for(const i in APIS){

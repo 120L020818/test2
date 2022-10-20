@@ -7,6 +7,7 @@ export const useStore = defineStore('main', {
         return {
             count: 10,
             username:"",
+            type:"",
         }
     },
     getters:{ // 相当于vue里面的计算属性，可以缓存数据

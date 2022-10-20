@@ -36,7 +36,7 @@
 
         <el-row>
           <el-col :span="24" style="text-align: center">
-            <el-button plain type="primary" @click="requestResult">
+            <el-button plain type="primary" @click="deleteResult">
               点击撤销证书
               <el-icon>
                 <Remove/>
@@ -79,6 +79,8 @@ import {
   ElCol,
   ElRow
 } from "element-plus"
+import axios from "axios";
+import APIS from "@/modules/api";
 
 export default {
 
@@ -104,9 +106,19 @@ export default {
     ElRow,
   },
   methods:{
-    requestResult(){
+    deleteResult() {
+      axios.post(APIS.cadelete, {
+        SerialNumber:this. SerialNumber,
+      }).then(res => {
+        this.dialogVisible = true;
+        console.log(res.data);
+      }).catch(reason => {
+        console.log(reason);
+      }).finally(() => {
+        console.log("FINALLY");
+      })
       this.dialogVisible = true;
-    }
+    },
   }
 }
 </script>

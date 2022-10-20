@@ -37,7 +37,7 @@
           style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>以查询证书申请结果:</span>
 
       <el-form-item label="工商注册号">
-        <el-input v-model="ID"/>
+        <el-input v-model="justiceID"/>
       </el-form-item>
     </el-form>
     <br>
@@ -93,7 +93,7 @@ import {useStore} from "@/store/index";
 export default {
   name: "ChildCARequest",
   data: () => ({
-    ID: "",
+    justiceID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
 
@@ -116,18 +116,18 @@ export default {
   },
   methods: {
     requestResult() {
-      // axios.post(APIS.request, {
-      //   SerialNumber:this.SerialNumber,
-      // }).then(res => {
-      //   console.log(res.data);
-      //   if(res.data.success===true){
-      //     this.$router.replace({name: 'index'});
-      //   }
-      // }).catch(reason => {
-      //   console.log(reason);
-      // }).finally(() => {
-      //   console.log("FINALLY");
-      // })
+      axios.post(APIS.request, {
+        justiceID:this.justiceID,
+      }).then(res => {
+        console.log(res.data);
+        // if(res.data.success===true){
+        //   this.$router.replace({name: 'index'});
+        // }
+      }).catch(reason => {
+        console.log(reason);
+      }).finally(() => {
+        console.log("FINALLY");
+      })
 
       this.dialogVisible = true;
     },

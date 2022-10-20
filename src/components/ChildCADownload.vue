@@ -29,7 +29,7 @@
           <span style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>以进行证书下载:</span>
 
           <el-form-item label="证书序号">
-            <el-input v-model="ID"/>
+            <el-input v-model=" SerialNumber"/>
           </el-form-item>
         </el-form>
         <br>
@@ -68,7 +68,8 @@
 <script>
 import {ArrowLeft, ArrowRight, Download, Check} from "@element-plus/icons-vue"
 import {ElMessageBox,ElDialog,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
-
+import axios from "axios";
+import APIS from "@/modules/api";
 export default {
   name: "ChildCADownload",
   components: {
@@ -87,11 +88,20 @@ export default {
   },
   data:()=>({
     dialogVisible:false,
-    ID:"",
+    SerialNumber:"",
   }),
   methods:{
     downloadCA(){
-      //todo
+      axios.post(APIS.download, {
+        SerialNumber:this. SerialNumber,
+      }).then(res => {
+        this.dialogVisible = true;
+        console.log(res.data);
+      }).catch(reason => {
+        console.log(reason);
+      }).finally(() => {
+        console.log("FINALLY");
+      })
 
       this.dialogVisible=true;
     },
