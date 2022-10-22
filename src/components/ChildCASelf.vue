@@ -111,6 +111,7 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import {useStore} from "@/store/index";
 
 export default {
   name: "ChildCASelf",
@@ -124,6 +125,7 @@ export default {
     email: "",
     regDay: "",
     cerHave: true,
+    store:useStore(),
   }),
   components: {
     // ElSpace,
@@ -142,7 +144,7 @@ export default {
   },
   methods: {
     requestResult() {
-      axios.post(APIS.self, {}).then(res => {
+      axios.post(APIS.self, {username:this.store.username}).then(res => {
         console.log(res.data);
         this.username = res.data.username;
         this.sex = res.data.sex;

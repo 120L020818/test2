@@ -15,6 +15,11 @@ import ChildCAIsValid from "@/components/ChildCAIsValid";
 import ChildCARequest from "@/components/ChildCARequest";
 import ChildCASelf from "@/components/ChildCASelf";
 import myAdmin from "@/components/MyAdmin";
+import myChild03 from "@/components/MyChild03";
+import ChildCADeleteAdmin from "@/components/ChildCADeleteAdmin";
+import ChildCAApplyAdmin from "@/components/ChildCAApplyAdmin";
+import ChildCAIsValidAdmin from "@/components/ChildCAIsValidAdmin";
+import ChildCAIsValidAdminList from "@/components/ChildCAIsValidAdminList";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -47,20 +52,20 @@ const router = createRouter({
                 path: '/index/caApply',
                 name: "caApply",
                 component: ChildCAApply
-                },
+            },
                 {
                     path: '/index/caDelete',
                     name: "caDelete",
                     component: ChildCADelete
-                },{
+                }, {
                     path: '/index/caDownload',
                     name: "caDownload",
                     component: ChildCADownload
-                },{
+                }, {
                     path: '/index/caIsValid',
                     name: "caIsValid",
                     component: ChildCAIsValid
-                },{
+                }, {
                     path: '/index/caRequest',
                     name: "caRequest",
                     component: ChildCARequest
@@ -69,7 +74,7 @@ const router = createRouter({
                     path: '/index/child1',
                     name: "child1",
                     component: myChild01
-                },{
+                }, {
                     path: '/index/self',
                     name: "caSelf",
                     component: ChildCASelf
@@ -88,12 +93,40 @@ const router = createRouter({
         // },
         {
             path: '/mychild02',
-            name:"mychild02",
+            name: "mychild02",
             component: myChild02
         }, {
             path: '/admin',
-            name:"admin",
-            component: myAdmin
+            name: "admin",
+            component: myAdmin,
+            children: [{
+                path: '/admin/child03',
+                name: "child3",
+                component: myChild03
+            },
+                {
+                    path: '/admin/admindelete',
+                    name: "admindelete",
+                    component: ChildCADeleteAdmin
+                },
+                {
+                    path: '/admin/self',
+                    name: "adminself",
+                    component: ChildCASelf
+                },{
+                    path: '/admin/adminapply',
+                    name: "adminapply",
+                    component: ChildCAApplyAdmin
+                },{
+                    path: '/admin/adminvalid',
+                    name: "adminvalid",
+                    component: ChildCAIsValidAdmin
+                },{
+                    path: '/admin/adminvalidlist',
+                    name: "adminvalidlist",
+                    component: ChildCAIsValidAdminList
+                },
+            ]
         },
     ]
 })

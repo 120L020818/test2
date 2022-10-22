@@ -1,17 +1,40 @@
 <template>
   <div class="beg-login-bg">
-    看这里
-    <button @click="test" class="btn btn-primary btn-lg">登陆</button>
+
+      <el-upload
+          class="upload-demo"
+          drag
+          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+          multiple
+      >
+        <el-icon class="el-icon--upload"><upload-filled/></el-icon>
+        <div class="el-upload__text">
+          Drop file here or <em>click to upload</em>
+        </div>
+        <template #tip>
+          <div class="el-upload__tip">
+            jpg/png files with a size less than 500kb
+          </div>
+        </template>
+      </el-upload>
   </div>
 </template>
 
 <script>
+import {ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
+import {Download, Upload,UploadFilled} from "@element-plus/icons-vue";
+
 export default {
   name: "MyTemp",
+  components: {
+    ElUpload,
+    UploadFilled,
+    // ArrowLeft, ArrowRight
+  },
   methods: {
-    test(){
-      this.$router.push({name:'test'})
-    }
+    // test(){
+    //   this.$router.push({name:'test'})
+    // }
   }
 }
 </script>

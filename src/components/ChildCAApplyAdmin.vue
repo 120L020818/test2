@@ -87,21 +87,21 @@
           </el-form-item>
 
           <el-form-item label="公钥" style="line-height: 20px">
-<!--            <el-upload-->
-<!--                class="upload-demo"-->
-<!--                drag-->
-<!--                action=""-->
-<!--                multiple-->
-<!--            >-->
-<!--              <div class="el-upload__text">-->
-<!--                Drop file here or <em>click to upload</em>-->
-<!--              </div>-->
-<!--              <template #tip>-->
-<!--                <div class="el-upload__tip">-->
-<!--                  jpg/png files with a size less than 500kb-->
-<!--                </div>-->
-<!--              </template>-->
-<!--            </el-upload>-->
+            <!--            <el-upload-->
+            <!--                class="upload-demo"-->
+            <!--                drag-->
+            <!--                action=""-->
+            <!--                multiple-->
+            <!--            >-->
+            <!--              <div class="el-upload__text">-->
+            <!--                Drop file here or <em>click to upload</em>-->
+            <!--              </div>-->
+            <!--              <template #tip>-->
+            <!--                <div class="el-upload__tip">-->
+            <!--                  jpg/png files with a size less than 500kb-->
+            <!--                </div>-->
+            <!--              </template>-->
+            <!--            </el-upload>-->
             <el-input v-model="publickey"/>
           </el-form-item>
           <el-form-item label="申请年限">
@@ -161,7 +161,7 @@ import {useStore} from "@/store/index";
 
 
 export default {
-  name: "ChildCAApply",
+  name: "ChildCAApplyAdmin",
   data: () => ({
     username: "",
     authority: "",

@@ -1,4 +1,4 @@
-const URL_PREFIX="http://localhost:10240/";
+const URL_PREFIX="http://172.20.120.110:10240/";
 
 const APIS={
     login:"api/login",

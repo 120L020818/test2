@@ -62,97 +62,60 @@
               </template>
               <el-menu-item-group>
                 <!--                <template #title>Group 1</template>-->
-                <el-menu-item index="1-1" @click="onclick2">
+                <el-menu-item index="1-1" @click="onclick2" disabled="true">
                   <el-icon>
                     <Switch/>
                   </el-icon>
                   <span>证书申请</span>
                 </el-menu-item>
-                <el-menu-item index="1-2" @click="onclick3">
+                <el-menu-item index="1-2" @click="onclick3" disabled="true">
                   <el-icon>
                     <Search/>
                   </el-icon>
                   <span>证书申请结果查询</span>
                 </el-menu-item>
-                <el-menu-item index="1-3" @click="onclick4">
+                <el-menu-item index="1-3" @click="onclick4" disabled="true">
                   <el-icon>
                     <Download/>
                   </el-icon>
                   <span>证书下载</span>
                 </el-menu-item>
-                <el-menu-item index="1-4" @click="onclick5">
+                <el-menu-item index="1-4" @click="onclick5" disabled="true">
                   <el-icon>
                     <CircleCheck/>
                   </el-icon>
                   <span>证书有效性查询</span>
                 </el-menu-item>
-                <el-menu-item index="1-5" @click="onclick6">
+                <el-menu-item index="1-5" @click="onclick9">
+                  <el-icon>
+                    <Filter/>
+                  </el-icon>
+                  <span>证书审核</span>
+                </el-menu-item>  <el-menu-item index="1-6" @click="onclick10">
+                  <el-icon>
+                    <Grid/>
+                  </el-icon>
+                  <span>可用证书列表</span>
+                </el-menu-item>  <el-menu-item index="1-7" @click="onclick11">
+                  <el-icon>
+                    <Comment/>
+                  </el-icon>
+                  <span>证书有效性查询</span>
+                </el-menu-item>  <el-menu-item index="1-8" @click="onclick6">
                   <el-icon>
                     <CircleClose/>
                   </el-icon>
                   <span>证书撤销</span>
                 </el-menu-item>
               </el-menu-item-group>
-              <!--              <el-menu-item-group title="Group 2">-->
-              <!--                <el-menu-item index="1-3">Option 3</el-menu-item>-->
-              <!--              </el-menu-item-group>-->
-              <!--              <el-sub-menu index="1-4">-->
-              <!--                <template #title>Option4</template>-->
-              <!--                <el-menu-item index="1-4-1">Option 4-1</el-menu-item>-->
-              <!--              </el-sub-menu>-->
+
             </el-sub-menu>
-
-            <!--            <el-sub-menu index="2" @click="onclick2">-->
-            <!--              <template #title>-->
-            <!--                <el-icon>-->
-            <!--                  <View/>-->
-            <!--                </el-icon>-->
-            <!--                <span>证书结果查询</span>-->
-            <!--              </template>-->
-            <!--              <el-menu-item-group>-->
-            <!--                <template #title>Group 1</template>-->
-            <!--                <el-menu-item index="2-1">Option 1</el-menu-item>-->
-            <!--                <el-menu-item index="2-2">Option 2</el-menu-item>-->
-            <!--              </el-menu-item-group>-->
-            <!--              <el-menu-item-group title="Group 2">-->
-            <!--                <el-menu-item index="2-3">Option 3</el-menu-item>-->
-            <!--              </el-menu-item-group>-->
-            <!--              <el-sub-menu index="2-4">-->
-            <!--                <template #title>Option 4</template>-->
-            <!--                <el-menu-item index="2-4-1">Option 4-1</el-menu-item>-->
-            <!--              </el-sub-menu>-->
-            <!--            </el-sub-menu>-->
-
-            <!--            <el-sub-menu index="3">-->
-            <!--              <template #title>-->
-            <!--                <el-icon>-->
-            <!--                  <Setting/>-->
-            <!--                </el-icon>-->
-            <!--                <span>证书下载</span>-->
-            <!--              </template>-->
-            <!--              <el-menu-item-group>-->
-            <!--                <template #title>Group 1</template>-->
-            <!--                <el-menu-item index="3-1">Option 1</el-menu-item>-->
-            <!--                <el-menu-item index="3-2">Option 2</el-menu-item>-->
-            <!--              </el-menu-item-group>-->
-            <!--              <el-menu-item-group title="Group 2">-->
-            <!--                <el-menu-item index="3-3">Option 3</el-menu-item>-->
-            <!--              </el-menu-item-group>-->
-            <!--              <el-sub-menu index="3-4">-->
-            <!--                <template #title>Option 4</template>-->
-            <!--                <el-menu-item index="3-4-1">Option 4-1</el-menu-item>-->
-            <!--              </el-sub-menu>-->
-            <!--            </el-sub-menu>-->
           </el-menu>
-
-
         </el-aside>
-
         <el-main>
           <router-view>
           </router-view>
         </el-main>
-
       </el-container>
     </el-container>
   </div>
@@ -160,7 +123,7 @@
 <script>
 import {useStore} from "@/store/index";
 import {
-  View,
+  View,Aim,Filter,Grid,
   Setting,
   Message,
   Star,
@@ -169,7 +132,7 @@ import {
   Search,
   Download,
   CircleCheck,
-  CircleClose
+  CircleClose,Comment
 } from "@element-plus/icons-vue"
 import {
   ElContainer,
@@ -203,10 +166,12 @@ export default {
   mounted() {
     console.log(this.type)
     this.name=this.store.username;
-    this.$router.replace({name: 'child1'});
+    this.$router.replace({name: 'child3'});
   },
   components: {
     ElDropdownItem,
+    // Aim,
+    Filter,Grid,Comment,
     ElDropdownMenu,
     ElDropdown,
     ElHeader,
@@ -245,20 +210,18 @@ export default {
       //暂时没东西
       this.store.count++;
       console.log(this.store.username);
-      this.$router.push({name: 'child1'});
+      this.$router.push({name: 'child3'});
+    },onclick9(){
+      this.$router.push({name: 'adminapply'});
+    },onclick10(){
+      this.$router.push({name: 'adminvalidlist'});
+    },onclick11(){
+      this.$router.push({name: 'adminvalid'});
     },
-    onclick2() {
-      this.$router.push({name: 'caApply'});
-    }, onclick3() {
-      this.$router.push({name: 'caRequest'});
-    }, onclick4() {
-      this.$router.push({name: 'caDownload'});
-    }, onclick5() {
-      this.$router.push({name: 'caIsValid'});
-    }, onclick6() {
-      this.$router.push({name: 'caDelete'});
+    onclick6() {
+      this.$router.push({name: 'admindelete'});
     }, onclick7() {
-      this.$router.push({name: 'caSelf'});
+      this.$router.push({name: 'adminself'});
     }, onclick8() {
       // console.log("看这里:"+this.store.username);
       // console.log("看这里:"+this.store.username);
