@@ -2,14 +2,14 @@
 
   <el-dialog
       v-model="dialogVisible"
-      title="恭喜你,您的申请已经审核通过!"
+      :title=title
       width="30%"
       style="font-size: 20px">
 
     <el-card class="box-card">
 
         <div class="card-header">
-          <el-button class="button" text @click="copyNumber">点击此处复制证书序号</el-button>
+          <el-button class="button" text @click="copyNumber">{{this.title==="恭喜你,您的申请已经审核通过!"?"点击此处复制证书序号":"请点击确认以退出"}}</el-button>
         </div>
     </el-card>
 <template #footer>
@@ -96,7 +96,7 @@ export default {
     justiceID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
-
+    title:"恭喜你,您的申请已经审核通过!",
     store:useStore(),
   }),
   components: {
@@ -119,10 +119,11 @@ export default {
       axios.post(APIS.request, {
         justiceID:this.justiceID,
       }).then(res => {
-        console.log(res.data);
-        // if(res.data.success===true){
-        //   this.$router.replace({name: 'index'});
-        // }
+        if(res.data.success===true){
+          this.SerialNumber=res.data.SerialNumber
+        }else{
+          this.title="未查询到相关信息!";
+        }
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {

@@ -1,4 +1,4 @@
-const createCode=function (length){
+const createCode = function (length) {
     var code = "";
     var codeLength = parseInt(length); //验证码的长度
     var checkCode = document.getElementById("checkCode");

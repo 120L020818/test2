@@ -113,15 +113,15 @@ const router = createRouter({
                     path: '/admin/self',
                     name: "adminself",
                     component: ChildCASelf
-                },{
+                }, {
                     path: '/admin/adminapply',
                     name: "adminapply",
                     component: ChildCAApplyAdmin
-                },{
+                }, {
                     path: '/admin/adminvalid',
                     name: "adminvalid",
                     component: ChildCAIsValidAdmin
-                },{
+                }, {
                     path: '/admin/adminvalidlist',
                     name: "adminvalidlist",
                     component: ChildCAIsValidAdminList

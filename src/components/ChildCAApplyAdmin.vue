@@ -1,146 +1,39 @@
 <template>
   <el-dialog
       v-model="dialogVisible"
-      title="您的申请已提交!"
+      title="即将进行初始查询"
       width="30%"
       style="font-size: 20px;line-height:50px;text-align:center">
-
-    <el-card class="box-card" style="line-height: 50px">
-      <!--      <el-space direction="vertical" size="20" spacer="|">-->
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">用户名:</el-col>
-        <el-col :span="12" style="text-align: left;">{{ username }}</el-col>
-      </el-row>
-
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">组织机构:</el-col>
-        <el-col :span="12" style="text-align: left;">{{ authority }}</el-col>
-      </el-row>
-
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">工商注册号:</el-col>
-        <el-col :span="12" style="text-align: left;"> {{ justiceID }}</el-col>
-
-      </el-row>
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">法人姓名:</el-col>
-        <el-col :span="12" style="text-align: left;"> {{ username }}</el-col>
-
-      </el-row>
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">经办人姓名:</el-col>
-        <el-col :span="12" style="text-align: left;">{{ admin }}</el-col>
-
-      </el-row>
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">经办人手机:</el-col>
-        <el-col :span="12" style="text-align: left;">{{ adminphone }}</el-col>
-
-      </el-row>
-      <el-row style="font-size: 20px">
-        <el-col :span="12" style="text-align: left;">申请年限:</el-col>
-        <el-col :span="12" style="text-align: left;"> {{ years }}{{ years !== "" ? "年" : "" }}</el-col>
-
-      </el-row>
-
-      <!--      </el-space>-->
-      <!--          <span>你的注册信息:</span>-->
-      <!--          <el-button class="button" text>操作按钮</el-button>-->
-      <!--      <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>-->
-    </el-card>
-    <!--    <template #footer>-->
-    <!--      <span class="dialog-footer">-->
-    <!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
-    <!--        <el-button type="primary" @click="dialogVisible = false"-->
-    <!--        >确认</el-button>-->
-    <!--      </span>-->
-    <!--    </template>-->
+    <template #footer>
+      <span class="dialog-footer">
+<!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
+        <el-button type="primary" @click="search"
+        >确认</el-button>
+      </span>
+    </template>
   </el-dialog>
 
 
   <el-row>
-    <el-col :span="6"></el-col>
-    <el-col :span="10" style="text-align: center">
+    <el-col :span="4"></el-col>
+    <el-col :span="14" style="text-align: center">
       <div style="background-color: rgba(233, 238, 243, 0.8) ;border-radius: 10px">
+        <el-table @row-click="onRowClick" :row-class-name="rouClassNameFn" :data="tableData" stripe
+                  style="width: 100%;border-radius: 10px">
+          <el-table-column prop="authority" label="组织机构"/>
+          <el-table-column prop="ID" label="工商号"/>
+          <el-table-column prop="username" label="法人姓名"/>
+          <el-table-column prop="chargename" label="经办人姓名"/>
+          <el-table-column prop="chargephone" label="经办人电话"/>
+          <el-table-column prop="expiretime" label="失效时间"/>
+          <el-table-column label="操作" style="text-align: right;">
+            <template #default="scope">
+              <el-button link type="primary" size="big" @click="handleClickPass(scope.$index)">通过</el-button>
+              <el-button link type="primary" size="big" @click="handleClickRefuse(scope.$index)">拒绝</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
 
-        <el-form
-            label-position="right"
-            label-width="200px"
-            style="max-width: 500px;line-height:100px; "
-        >
-      <span
-          style=' font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>请在此处申请证书:</span>
-          <el-form-item label="组织机构" margin-top=10px>
-            <el-input v-model="authority"/>
-          </el-form-item>
-          <el-form-item label="工商注册号">
-            <el-input v-model="justiceID"/>
-          </el-form-item>
-          <el-form-item label="法人姓名">
-            <el-input v-model="username"/>
-          </el-form-item>
-          <el-form-item label="经办人姓名">
-            <el-input v-model="admin"/>
-          </el-form-item>
-          <el-form-item label="经办人电话">
-            <el-input v-model="adminphone"/>
-          </el-form-item>
-
-          <el-form-item label="公钥" style="line-height: 20px">
-            <!--            <el-upload-->
-            <!--                class="upload-demo"-->
-            <!--                drag-->
-            <!--                action=""-->
-            <!--                multiple-->
-            <!--            >-->
-            <!--              <div class="el-upload__text">-->
-            <!--                Drop file here or <em>click to upload</em>-->
-            <!--              </div>-->
-            <!--              <template #tip>-->
-            <!--                <div class="el-upload__tip">-->
-            <!--                  jpg/png files with a size less than 500kb-->
-            <!--                </div>-->
-            <!--              </template>-->
-            <!--            </el-upload>-->
-            <el-input v-model="publickey"/>
-          </el-form-item>
-          <el-form-item label="申请年限">
-            <el-select v-model="years" placeholder="请选择您的申请年限">
-              <el-option label="一年" value="1"/>
-              <el-option label="两年" value="2"/>
-              <el-option label="三年" value="3"/>
-            </el-select>
-          </el-form-item>
-        </el-form>
-
-        <el-row>
-
-          <el-col :span="15" style="text-align: center">
-            <el-button-group>
-              <el-button type="success" @click="dlGenerator">
-                <el-icon>
-                  <Download/>
-                </el-icon>
-                点击下载密钥生成程序
-              </el-button>
-              <el-button type="primary" @click="dlProtector">
-                点击下载密钥保护程序
-                <el-icon>
-                  <Download/>
-                </el-icon>
-              </el-button>
-            </el-button-group>
-          </el-col>
-
-          <el-col :span="9" style="text-align: center">
-            <el-button plain type="primary" @click="onClick">
-              点击提交申请
-              <el-icon>
-                <Upload/>
-              </el-icon>
-            </el-button>
-          </el-col>
-        </el-row>
 
       </div>
 
@@ -153,8 +46,21 @@
 </template>
 
 <script>
-import {ArrowLeft, ArrowRight, Download, Check, Upload,UploadFilled} from "@element-plus/icons-vue"
-import {ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
+import {ArrowLeft, ArrowRight, Download, Check, Upload, UploadFilled} from "@element-plus/icons-vue"
+import {
+  ElTable,
+  ElTableColumn,
+  ElUpload,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElButton,
+  ElButtonGroup,
+  ElCol,
+  ElRow
+} from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
@@ -163,79 +69,57 @@ import {useStore} from "@/store/index";
 export default {
   name: "ChildCAApplyAdmin",
   data: () => ({
-    username: "",
-    authority: "",
-    justiceID: "",
-    admin: "",
-    adminphone: "",
-    years: "",
-    publickey: "",
     dialogVisible: false,
     store: useStore(),
+    tableData: '',
   }),
+
+  mounted() {
+    axios.post(APIS.applyadmin, {}).then(res => {
+      this.tableData = res.data.data
+    }).catch(reason => {
+      console.log(reason);
+    }).finally(() => {
+      console.log("FINALLY");
+    })
+
+  },
   components: {
-    // ElUpload,
-    // UploadFilled,
-    ElForm,
-    ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow,
-    Upload,
-    Download,
-    // ArrowLeft, ArrowRight
+    ElCol, ElRow, ElButton, ElTableColumn, ElTable
   },
   methods: {
-    onClick() {
-      axios.post(APIS.apply, {
-        juridicalperson:this.username,
-        username:this.store.username,
-        authority:this.authority,
-        justiceID:this.justiceID,
-        admin:this.admin,
-        adminphone:this.adminphone,
-        years:this.years,
-        publickey:this.publickey,
+    handleClickPass(index) {
+      console.log(this.tableData[index]);
+      axios.post(APIS.applypass, {
+        "ID": this.tableData[index].ID,
       }).then(res => {
-        this.dialogVisible = true;
-        console.log(res.data);
+        console.log(res.data)
+        axios.post(APIS.applyadmin, {}).then(res => {
+          this.tableData = res.data.data
+        }).catch(reason => {
+          console.log(reason);
+        }).finally(() => {
+          console.log("FINALLY");
+        })
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
         console.log("FINALLY");
       })
     },
-    dlGenerator() {
-      axios.post(APIS.dlgen, {
-        username: this.store.username,
-      }, {responseType: 'blob'},).then(res => {
-        const a = document.createElement('a')
-        a.style.display = 'none'
-        a.href = window.URL.createObjectURL(new Blob([res.data]))
-        a.setAttribute('download', 'generate.exe') // 设置文件名
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-
-        // this.dialogVisible = true;
-        console.log(res.data);
-      }).catch(reason => {
-        console.log(reason);
-      }).finally(() => {
-        console.log("FINALLY");
-      })
-    },
-    dlProtector() {
-      axios.post(APIS.dlpro, {
-        username: this.store.username,
-      }, {responseType: 'blob'},).then(res => {
-        const a = document.createElement('a')
-        a.style.display = 'none'
-        a.href = window.URL.createObjectURL(new Blob([res.data]))
-        a.setAttribute('download', 'protect.exe') // 设置文件名
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-
-        // this.dialogVisible = true;
-        console.log(res.data);
+    handleClickRefuse(index) {
+      console.log(this.tableData[index]);
+      axios.post(APIS.applyrefuse, {
+        "ID": this.tableData[index].ID,
+      }).then(res => {
+        console.log(res.data)
+        axios.post(APIS.applyadmin, {}).then(res => {
+          this.tableData = res.data.data
+        }).catch(reason => {
+          console.log(reason);
+        }).finally(() => {
+          console.log("FINALLY");
+        })
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
@@ -247,8 +131,5 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item {
-  /*margin-bottom: 50px;*/
-  margin-top: 30px;
-}
+
 </style>

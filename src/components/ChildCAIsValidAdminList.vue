@@ -13,55 +13,29 @@
   </el-dialog>
 
   <el-row>
-    <el-col :span="6">
+    <el-col :span="4">
     </el-col>
 
-    <el-col :span="10" style="text-align: center">
+    <el-col :span="14" style="text-align: center">
       <div style="background-color: rgba(233, 238, 243, 0.8) ;border-radius: 10px">
-        <el-form
-            label-position="right"
-            label-width="200px"
-            style="max-width: 500px;">
-          <span
-              style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>请在此处输入证书序号,</span><br>
-          <span
-              style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>进行证书有效性查询:</span>
 
-          <el-form-item label="证书序号">
-            <el-input v-model="ID"/>
-          </el-form-item>
-        </el-form>
-        <br>
+        <el-table :data="tableData" stripe style="width: 100%;border-radius: 10px">
+          <el-table-column prop="authority" label="组织机构"/>
+          <el-table-column prop="ID" label="工商号"/>
+          <el-table-column prop="username" label="法人姓名"/>
+          <el-table-column prop="chargename" label="经办人姓名"/>
+          <el-table-column prop="chargephone" label="经办人电话"/>
+          <el-table-column prop="expiretime" label="失效时间"/>
+        </el-table>
 
-        <el-row>
-          <el-col :span="24" style="text-align: center">
-            <el-button plain type="primary" @click="isValidResult">
-              点击提交查询
-              <el-icon>
-                <Search/>
-              </el-icon>
-            </el-button>
-          </el-col>
-        </el-row>
       </div>
-
-
     </el-col>
-
-    <el-col :span="6">
-
-
+    <el-col :span="4">
     </el-col>
     <el-col :span="6">
-
-
     </el-col>
-
-
   </el-row>
-
 </template>
-
 <script>
 import {ArrowLeft, ArrowRight, Download, Check, Search} from "@element-plus/icons-vue"
 import {
@@ -87,37 +61,34 @@ export default {
     ID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
+    tableData: [],
   }),
   components: {
     // ElSpace,
     // ElCard,
     ElDialog,
-    ElForm,
-    ElFormItem,
-    ElInput,
+    // ElForm,
+    // ElFormItem,
+    // ElInput,
     // ElSelect,
     // ElOption,
     ElButton,
     // Check,
-    Search,
+    // Search,
     // ElButtonGroup,
     ElCol,
     ElRow,
   },
+  mounted() {
+    axios.post(APIS.isvalidlistadmin, {}).then(res => {
+      this.tableData = res.data.data
+    }).catch(reason => {
+      console.log(reason);
+    }).finally(() => {
+      console.log("FINALLY");
+    })
+  },
   methods: {
-    isValidResult() {
-      axios.post(APIS.isvalid, {
-        SerialNumber:this. SerialNumber,
-      }).then(res => {
-        this.dialogVisible = true;
-        console.log(res.data);
-      }).catch(reason => {
-        console.log(reason);
-      }).finally(() => {
-        console.log("FINALLY");
-      })
-      this.dialogVisible = true;
-    },
   }
 }
 </script>

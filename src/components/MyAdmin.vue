@@ -96,12 +96,12 @@
                     <Grid/>
                   </el-icon>
                   <span>可用证书列表</span>
-                </el-menu-item>  <el-menu-item index="1-7" @click="onclick11">
-                  <el-icon>
-                    <Comment/>
-                  </el-icon>
-                  <span>证书有效性查询</span>
-                </el-menu-item>  <el-menu-item index="1-8" @click="onclick6">
+<!--                </el-menu-item>  <el-menu-item index="1-7" @click="onclick11">-->
+<!--                  <el-icon>-->
+<!--                    <Comment/>-->
+<!--                  </el-icon>-->
+<!--                  <span>证书有效性查询</span>-->
+                </el-menu-item>  <el-menu-item index="1-7" @click="onclick6">
                   <el-icon>
                     <CircleClose/>
                   </el-icon>
@@ -171,7 +171,8 @@ export default {
   components: {
     ElDropdownItem,
     // Aim,
-    Filter,Grid,Comment,
+    Filter,Grid,
+    // Comment,
     ElDropdownMenu,
     ElDropdown,
     ElHeader,
@@ -213,11 +214,14 @@ export default {
       this.$router.push({name: 'child3'});
     },onclick9(){
       this.$router.push({name: 'adminapply'});
+    },onclick5(){
+      this.$router.push({name: 'adminvalid'});
     },onclick10(){
       this.$router.push({name: 'adminvalidlist'});
-    },onclick11(){
-      this.$router.push({name: 'adminvalid'});
     },
+    // onclick11(){
+    //   this.$router.push({name: 'adminvalid'});
+    // },
     onclick6() {
       this.$router.push({name: 'admindelete'});
     }, onclick7() {

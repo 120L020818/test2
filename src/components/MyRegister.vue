@@ -1,5 +1,5 @@
 <template>
-<!--  "您已注册成功!点击跳转"-->
+  <!--  "您已注册成功!点击跳转"-->
   <el-dialog
       v-model="dialogVisible"
       :title=message
@@ -13,7 +13,7 @@
       </span>
     </template>
   </el-dialog>
-<!--dialogVisible = false-->
+  <!--dialogVisible = false-->
   <div class="beg-login-bg">
 
     <div id="app1">
@@ -65,7 +65,7 @@
                                   class="input"><br>
 
 
-      <div id="checkCode" class="code"  @click="shuffleCode" title="点我更换验证码~">{{trueCaptcha}}</div>
+      <div id="checkCode" class="code" @click="shuffleCode" title="点我更换验证码~">{{ trueCaptcha }}</div>
 
       <br>
       <br>
@@ -86,7 +86,7 @@
 
 <script>
 import createCode from "@/modules/method";
-import {ElButton, ElRow, ElSpace, ElProgress,ElDialog,} from "element-plus";
+import {ElButton, ElRow, ElSpace, ElProgress, ElDialog,} from "element-plus";
 import axios from "axios";
 import APIS from "../modules/api";
 import {useStore} from "@/store/index";
@@ -107,16 +107,16 @@ export default {
     Content: "密码不合法哦~",
     phoneNumber: "",
     birthDate: "1980-01-01",
-    dialogVisible:false,
+    dialogVisible: false,
 
-    store:useStore(),
-    message:"",
-    innerMessage:"",
+    store: useStore(),
+    message: "",
+    innerMessage: "",
   }),
-  components: {ElProgress, ElSpace,ElDialog,},
+  components: {ElProgress, ElSpace, ElDialog,},
   mounted() {
     this.trueCaptcha = createCode(5);
-    this.trueEmailCode=createCode(23);
+    this.trueEmailCode = createCode(23);
     this.percent = 0;
     this.colors = "#f56c6c";
   },
@@ -126,15 +126,15 @@ export default {
       console.log(this.trueCaptcha);
       // return this.trueCaptcha;
     },
-    jump(){
-      if(this.message==="您已注册成功!点击跳转"){
+    jump() {
+      if (this.message === "您已注册成功!点击跳转") {
         this.$router.replace({name: 'index'})
       }
 
       this.captcha = "";
       this.trueCaptcha = createCode(5);
-      this.dialogVisible=false;
-      this.message="";
+      this.dialogVisible = false;
+      this.message = "";
     },
     checkPassword() {
       var innerPass = this.password;
@@ -212,60 +212,59 @@ export default {
       var flag1 = 0;
       if (this.percent >= 40) {
         flag1 = 1;
-      }
-      else{
-        this.message="密码强度不足!请更换密码!\n";
+      } else {
+        this.message = "密码强度不足!请更换密码!\n";
       }
 
       var flag2 = 0;
-      if(this.captcha===this.trueCaptcha){
-        flag2=1;
-      }else{
-        this.message+="验证码输入错误!\n";
+      if (this.captcha === this.trueCaptcha) {
+        flag2 = 1;
+      } else {
+        this.message += "验证码输入错误!\n";
       }
 
-      var flag3=0;
-      if(this.emailCode===this.trueEmailCode){
-        flag3=1;
-      }else{
-        this.message+="邮箱验证码输入错误!\n";
+      var flag3 = 0;
+      if (this.emailCode === this.trueEmailCode) {
+        flag3 = 1;
+      } else {
+        this.message += "邮箱验证码输入错误!\n";
       }
 
-      var flag4=0;
-      var reg=/^1[3456789]\d{9}$/
-      if(this.phoneNumber.match(reg)){
-        flag4=1;
-      }else{
-        this.message+="手机号格式有误!\n";
+      var flag4 = 0;
+      var reg = /^1[3456789]\d{9}$/
+      if (this.phoneNumber.match(reg)) {
+        flag4 = 1;
+      } else {
+        this.message += "手机号格式有误!\n";
       }
       console.log(flag4);
 
-      if(flag1&&flag2&&flag3&&flag4){
+      if (flag1 && flag2 && flag3 && flag4) {
         axios.post(APIS.register, {
-          username:this.username,
-          sex:this.sex==="man"?"1":"0",
-          password:this.password,
-          birthday:this.birthDate,
-          phone:this.phoneNumber,
+          username: this.username,
+          sex: this.sex === "man" ? "1" : "0",
+          password: this.password,
+          birthday: this.birthDate,
+          phone: this.phoneNumber,
           email: this.email,
         }).then(res => {
-          if(res.data.success===true){
+          if (res.data.success === true) {
             console.log(res)
-            this.innerMessage="跳转";
-            this.message="您已注册成功!点击跳转";
-            this.store.username=this.username;
-            this.dialogVisible=true;
-          }else if(res.data.success===false&&res.data.hasB4===true){
-            this.innerMessage="确认";
-            this.message="用户名冲突,请更换用户名!";
-            this.dialogVisible=true;
+            this.innerMessage = "跳转";
+            this.message = "您已注册成功!点击跳转";
+            this.store.username = this.username;
+            this.dialogVisible = true;
+          } else if (res.data.success === false && res.data.hasB4 === true) {
+            this.innerMessage = "确认";
+            this.message = "用户名冲突,请更换用户名!";
+            this.dialogVisible = true;
           }
         }).catch(reason => {
         }).finally(() => {
         })
-      }else{
-        this.innerMessage="确认"
-        this.dialogVisible=true;
+      } else {
+        this.innerMessage = "确认"
+        this.dialogVisible = true;
       }
 
 

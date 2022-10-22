@@ -1,7 +1,7 @@
 <template>
   <el-dialog
       v-model="dialogVisible"
-      title="你的证书已经手动撤销了!"
+      :title=title
       width="30%"
       style="font-size: 20px">
     <template #footer>
@@ -81,6 +81,7 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import {useStore} from "@/store/index";
 
 export default {
 
@@ -89,6 +90,8 @@ export default {
     ID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
+    title:"你的证书已经手动撤销了!",
+    store:useStore(),
   }),
   components: {
     // ElSpace,
@@ -107,9 +110,14 @@ export default {
   },
   methods:{
     deleteResult() {
-      axios.post(APIS.cadelete, {
+      this.SerialNumber=this.ID
+      axios.post(APIS.deleteadmin, {
         SerialNumber:this. SerialNumber,
       }).then(res => {
+        if(res.data.success===false){
+          this.title="撤销失败!"
+        }
+
         this.dialogVisible = true;
         console.log(res.data);
       }).catch(reason => {

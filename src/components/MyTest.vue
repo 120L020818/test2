@@ -1,34 +1,49 @@
 <template>
-  <div class="beg-login-bg">
-
-      <el-upload
-          class="upload-demo"
-          drag
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-          multiple
-      >
-        <el-icon class="el-icon--upload"><upload-filled/></el-icon>
-        <div class="el-upload__text">
-          Drop file here or <em>click to upload</em>
-        </div>
-        <template #tip>
-          <div class="el-upload__tip">
-            jpg/png files with a size less than 500kb
-          </div>
-        </template>
-      </el-upload>
-  </div>
+  <el-table :data="tableData" stripe style="width: 100%">
+    <el-table-column prop="date" label="Date" width="180" />
+    <el-table-column prop="name" label="Name" width="180" />
+    <el-table-column prop="address" label="Address" />
+  </el-table>
 </template>
 
 <script>
-import {ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
+import {ElTable,ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
 import {Download, Upload,UploadFilled} from "@element-plus/icons-vue";
+import {useStore} from "@/store";
 
 export default {
   name: "MyTemp",
+  data: () => ({
+    store: useStore(),
+    isCollapse: false,
+    name:"",
+    tableData: [
+      {
+        date: '2016-05-03',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-02',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-04',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+      {
+        date: '2016-05-01',
+        name: 'Tom',
+        address: 'No. 189, Grove St, Los Angeles',
+      },
+    ],
+  }),
   components: {
-    ElUpload,
-    UploadFilled,
+    ElTable,
+    // ElUpload,
+    // UploadFilled,
     // ArrowLeft, ArrowRight
   },
   methods: {

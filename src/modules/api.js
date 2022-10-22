@@ -13,6 +13,11 @@ const APIS={
     download:"api/download",
     isvalid:"api/isvalid",
     cadelete:"api/cadelete",
+    applyadmin:"api/applyadmin",
+    applypass:"api/applypass",
+    applyrefuse:"api/applyrefuse",
+    isvalidlistadmin:"api/isvalidlistadmin",
+    deleteadmin:"api/deleteadmin",
 }
 
 for(const i in APIS){

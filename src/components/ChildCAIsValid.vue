@@ -1,7 +1,7 @@
 <template>
   <el-dialog
       v-model="dialogVisible"
-      title="恭喜你,你的证书是有效的!"
+      :title=title
       width="30%"
       style="font-size: 20px">
     <template #footer>
@@ -87,6 +87,7 @@ export default {
     ID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
+    title:"恭喜你,你的证书是有效的!",
   }),
   components: {
     // ElSpace,
@@ -106,9 +107,15 @@ export default {
   },
   methods: {
     isValidResult() {
+      this.SerialNumber=this.ID;
       axios.post(APIS.isvalid, {
-        SerialNumber:this. SerialNumber,
+        SerialNumber:this.SerialNumber,
       }).then(res => {
+        if(res.data.success===true){
+          this.title="恭喜,您的证书是有效的!";
+        }else{
+          this.title="您的证书无效!";
+        }
         this.dialogVisible = true;
         console.log(res.data);
       }).catch(reason => {

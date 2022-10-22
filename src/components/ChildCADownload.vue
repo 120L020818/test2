@@ -94,9 +94,16 @@ export default {
     downloadCA(){
       axios.post(APIS.download, {
         SerialNumber:this. SerialNumber,
-      }).then(res => {
-        this.dialogVisible = true;
-        console.log(res.data);
+      }, {responseType: 'blob'},).then(res => {
+        const a = document.createElement('a')
+        a.style.display = 'none'
+        a.href = window.URL.createObjectURL(new Blob([res.data]))
+        a.setAttribute('download', this.SerialNumber+'.json') // 设置文件名
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+
+        // this.dialogVisible = true;
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
