@@ -5,8 +5,7 @@
   </div>
 </template>
 
-<script>
-export default {
+<script>export default {
   name: "MyTemp",
   methods: {
      test(){

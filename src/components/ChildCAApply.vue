@@ -42,19 +42,7 @@
         <el-col :span="12" style="text-align: left;"> {{ years }}{{ years !== "" ? "年" : "" }}</el-col>
 
       </el-row>
-
-      <!--      </el-space>-->
-      <!--          <span>你的注册信息:</span>-->
-      <!--          <el-button class="button" text>操作按钮</el-button>-->
-      <!--      <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>-->
     </el-card>
-    <!--    <template #footer>-->
-    <!--      <span class="dialog-footer">-->
-    <!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
-    <!--        <el-button type="primary" @click="dialogVisible = false"-->
-    <!--        >确认</el-button>-->
-    <!--      </span>-->
-    <!--    </template>-->
   </el-dialog>
 
 

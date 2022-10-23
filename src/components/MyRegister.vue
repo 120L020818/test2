@@ -28,11 +28,6 @@
       <label>密码</label><input type="password" id='pwd' v-model="password" name="pwd" required @input="checkPassword"
                                 placeholder="请输入密码:" class="input">
       <br>
-      <!--  #626aef-->
-      <!--      <span style="color:rgba(255, 255, 255, 0.8)">      </span>-->
-      <!--        <el-button :color="FC" plain disabled="true" >弱</el-button>-->
-      <!--        <el-button :color="SC" plain disabled="true">中</el-button>-->
-      <!--        <el-button :color="TC" plain disabled="true">强</el-button>-->
       <el-space wrap>
         <div class="demo-progress">
           <el-progress :text-inside="true" :stroke-width="26" :percentage=percent :color="colors"/>
