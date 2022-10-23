@@ -80,6 +80,7 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import {useStore} from "@/store/index";
 
 export default {
   name: "ChildCAIsValid",
@@ -87,6 +88,7 @@ export default {
     ID: "",
     dialogVisible: false,
     SerialNumber: "23333333",
+    store:useStore(),
     title:"恭喜你,你的证书是有效的!",
   }),
   components: {
@@ -109,6 +111,7 @@ export default {
     isValidResult() {
       this.SerialNumber=this.ID;
       axios.post(APIS.isvalid, {
+        username:this.store.username,
         SerialNumber:this.SerialNumber,
       }).then(res => {
         if(res.data.success===true){

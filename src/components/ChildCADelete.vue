@@ -88,7 +88,7 @@ export default {
   name: "ChildCADelete",
   data: () => ({
     ID: "",
-    dialogVisible: false,
+    dialogVisible: true,
     SerialNumber: "23333333",
     title:"你的证书已经手动撤销了!",
     store:useStore(),

@@ -70,6 +70,8 @@ import {ArrowLeft, ArrowRight, Download, Check} from "@element-plus/icons-vue"
 import {ElMessageBox,ElDialog,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import {useStore} from "@/store/index";
+
 export default {
   name: "ChildCADownload",
   components: {
@@ -89,10 +91,12 @@ export default {
   data:()=>({
     dialogVisible:false,
     SerialNumber:"",
+    store:useStore(),
   }),
   methods:{
     downloadCA(){
       axios.post(APIS.download, {
+        username:this.store.username,
         SerialNumber:this. SerialNumber,
       }, {responseType: 'blob'},).then(res => {
         const a = document.createElement('a')
