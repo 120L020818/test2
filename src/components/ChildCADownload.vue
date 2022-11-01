@@ -71,6 +71,7 @@ import {ElMessageBox,ElDialog,ElForm, ElFormItem, ElInput, ElSelect, ElOption, E
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 export default {
   name: "ChildCADownload",
@@ -95,10 +96,13 @@ export default {
   }),
   methods:{
     downloadCA(){
-      axios.post(APIS.download, {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
         username:this.store.username,
         SerialNumber:this. SerialNumber,
-      }, {responseType: 'blob'},).then(res => {
+      }
+      axios.post(APIS.download, jsHttps.encryptRequestData(myRequestData,adminpublickey), {responseType: 'blob'},).then(res => {
         const a = document.createElement('a')
         a.style.display = 'none'
         a.href = window.URL.createObjectURL(new Blob([res.data]))

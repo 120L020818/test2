@@ -82,6 +82,7 @@ import {
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 export default {
 
@@ -110,16 +111,20 @@ export default {
   },
   methods:{
     deleteResult() {
+      const jsHttps=new JsHttps();
+      const adminpublickey=this.store.publickey
       this.SerialNumber=this.ID
-      axios.post(APIS.deleteadmin, {
+      const myRequestData={
         SerialNumber:this. SerialNumber,
-      }).then(res => {
-        if(res.data.success===false){
+      }
+      axios.post(APIS.deleteadmin, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
+        res=jsHttps.decryptResponseData(res.data);
+        console.log(res)
+        if(res.success===false){
           this.title="撤销失败!"
         }
-
         this.dialogVisible = true;
-        console.log(res.data);
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {

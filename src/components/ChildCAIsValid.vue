@@ -81,6 +81,7 @@ import {
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 export default {
   name: "ChildCAIsValid",
@@ -110,17 +111,21 @@ export default {
   methods: {
     isValidResult() {
       this.SerialNumber=this.ID;
-      axios.post(APIS.isvalid, {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
         username:this.store.username,
         SerialNumber:this.SerialNumber,
-      }).then(res => {
-        if(res.data.success===true){
+      }
+      axios.post(APIS.isvalid,jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
+        res=jsHttps.decryptResponseData(res.data);
+        if(res.success===true){
           this.title="恭喜,您的证书是有效的!";
         }else{
           this.title="您的证书无效!";
         }
         this.dialogVisible = true;
-        console.log(res.data);
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {

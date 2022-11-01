@@ -64,6 +64,7 @@ import {
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 
 export default {
@@ -75,14 +76,21 @@ export default {
   }),
 
   mounted() {
-    axios.post(APIS.applyadmin, {}).then(res => {
+    const jsHttps=new JsHttps();
+    const adminpublickey=this.store.publickey
+    const myRequestData={
+      "temp":233,
+    }
+    axios.post(APIS.applyadmin, jsHttps.encryptRequestData(myRequestData,adminpublickey)).then(res => {
+      console.log(res)
+      res=jsHttps.decryptResponseData(res.data);
+      console.log(res.data.data)
       this.tableData = res.data.data
     }).catch(reason => {
       console.log(reason);
     }).finally(() => {
       console.log("FINALLY");
     })
-
   },
   components: {
     ElCol, ElRow, ElButton, ElTableColumn, ElTable
@@ -90,11 +98,22 @@ export default {
   methods: {
     handleClickPass(index) {
       console.log(this.tableData[index]);
-      axios.post(APIS.applypass, {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
         "ID": this.tableData[index].ID,
-      }).then(res => {
-        console.log(res.data)
-        axios.post(APIS.applyadmin, {}).then(res => {
+      }
+      axios.post(APIS.applypass, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
+        const jsHttps=new JsHttps();
+        const adminpublickey=this.store.publickey
+        const myRequestData={
+          "temp":233,
+        }
+        axios.post(APIS.applyadmin, jsHttps.encryptRequestData(myRequestData,adminpublickey)).then(res => {
+          console.log(res)
+          res=jsHttps.decryptResponseData(res.data);
+          console.log(res.data.data)
           this.tableData = res.data.data
         }).catch(reason => {
           console.log(reason);
@@ -108,12 +127,23 @@ export default {
       })
     },
     handleClickRefuse(index) {
-      console.log(this.tableData[index]);
-      axios.post(APIS.applyrefuse, {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
         "ID": this.tableData[index].ID,
-      }).then(res => {
-        console.log(res.data)
-        axios.post(APIS.applyadmin, {}).then(res => {
+      }
+      console.log(this.tableData[index]);
+      axios.post(APIS.applyrefuse, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
+        const jsHttps=new JsHttps();
+        const adminpublickey=this.store.publickey
+        const myRequestData={
+          "temp":233,
+        }
+        axios.post(APIS.applyadmin, jsHttps.encryptRequestData(myRequestData,adminpublickey)).then(res => {
+          console.log(res)
+          res=jsHttps.decryptResponseData(res.data);
+          console.log(res.data.data)
           this.tableData = res.data.data
         }).catch(reason => {
           console.log(reason);

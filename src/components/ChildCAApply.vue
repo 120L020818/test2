@@ -9,7 +9,7 @@
       <!--      <el-space direction="vertical" size="20" spacer="|">-->
       <el-row style="font-size: 20px">
         <el-col :span="12" style="text-align: left;">用户名:</el-col>
-        <el-col :span="12" style="text-align: left;">{{ username }}</el-col>
+        <el-col :span="12" style="text-align: left;">{{this.store.username }}</el-col>
       </el-row>
 
       <el-row style="font-size: 20px">
@@ -24,7 +24,7 @@
       </el-row>
       <el-row style="font-size: 20px">
         <el-col :span="12" style="text-align: left;">法人姓名:</el-col>
-        <el-col :span="12" style="text-align: left;"> {{ username }}</el-col>
+        <el-col :span="12" style="text-align: left;"> {{ juridicalperson }}</el-col>
 
       </el-row>
       <el-row style="font-size: 20px">
@@ -65,7 +65,7 @@
             <el-input v-model="justiceID"/>
           </el-form-item>
           <el-form-item label="法人姓名">
-            <el-input v-model="username"/>
+            <el-input v-model="juridicalperson"/>
           </el-form-item>
           <el-form-item label="经办人姓名">
             <el-input v-model="admin"/>
@@ -127,6 +127,12 @@
                 <Upload/>
               </el-icon>
             </el-button>
+<!--            <el-button plain type="primary" @click="onClick233">-->
+<!--              点这里发送加密请求-->
+<!--              <el-icon>-->
+<!--                <Upload/>-->
+<!--              </el-icon>-->
+<!--            </el-button>-->
           </el-col>
         </el-row>
 
@@ -146,34 +152,49 @@ import {ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElBu
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 
 export default {
   name: "ChildCAApply",
   data: () => ({
-    username: "",
     authority: "",
     justiceID: "",
     admin: "",
     adminphone: "",
     years: "",
     publickey: "",
+    juridicalperson:"",
     dialogVisible: false,
     store: useStore(),
   }),
   components: {
-    // ElUpload,
-    // UploadFilled,
     ElForm,
     ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow,
     Upload,
     Download,
-    // ArrowLeft, ArrowRight
   },
   methods: {
+    // onClick233(){
+    //   this.adminpublickey=this.store.publickey
+    //   const jsHttps=new JsHttps();
+    //   const myRequestData={
+    //     name:"Flora",
+    //     age:20,
+    //     interests:["reading","writing","exploring","law"]
+    //   };
+    //   axios.post(APIS.demo,
+    //       jsHttps.encryptRequestData(myRequestData,this.adminpublickey)
+    //   ).then(
+    //       res=>{
+    //         console.log(jsHttps.decryptResponseData(res.data));
+    //       });
+    // },
     onClick() {
-      axios.post(APIS.apply, {
-        juridicalperson:this.username,
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
+        juridicalperson:this.juridicalperson,
         username:this.store.username,
         authority:this.authority,
         justiceID:this.justiceID,
@@ -181,9 +202,11 @@ export default {
         adminphone:this.adminphone,
         years:this.years,
         publickey:this.publickey,
-      }).then(res => {
+      }
+      axios.post(APIS.apply,jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
         this.dialogVisible = true;
-        console.log(res.data);
+        console.log(jsHttps.decryptResponseData(res.data));
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
@@ -201,8 +224,6 @@ export default {
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
-
-        // this.dialogVisible = true;
         console.log(res.data);
       }).catch(reason => {
         console.log(reason);
@@ -221,8 +242,6 @@ export default {
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
-
-        // this.dialogVisible = true;
         console.log(res.data);
       }).catch(reason => {
         console.log(reason);
@@ -235,8 +254,5 @@ export default {
 </script>
 
 <style scoped>
-.el-form-item {
-  /*margin-bottom: 50px;*/
-  margin-top: 30px;
-}
+
 </style>

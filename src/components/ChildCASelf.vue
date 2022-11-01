@@ -101,6 +101,7 @@ import {
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 
 export default {
   name: "ChildCASelf",
@@ -133,15 +134,19 @@ export default {
   },
   methods: {
     requestResult() {
-      axios.post(APIS.self, {username:this.store.username}).then(res => {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={username:this.store.username}
+      axios.post(APIS.self, jsHttps.encryptRequestData(myRequestData,adminpublickey)).then(res => {
         console.log(res.data);
-        this.username = res.data.username;
-        this.sex = res.data.sex;
-        this.birthday = res.data.birthday;
-        this.phone = res.data.phone;
-        this.email = res.data.email;
-        this.regDay = res.data.regDay;
-        this.cerHave = res.data.cerHave;
+        res=jsHttps.decryptResponseData(res.data)
+        this.username = res.username;
+        this.sex = res.sex;
+        this.birthday = res.birthday;
+        this.phone = res.phone;
+        this.email = res.email;
+        this.regDay = res.regDay;
+        this.cerHave = res.cerHave;
         this.dialogVisible = true;
       }).catch(reason => {
         console.log(reason);

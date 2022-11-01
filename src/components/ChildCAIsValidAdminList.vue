@@ -54,6 +54,8 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import JsHttps from "js-https";
+import {useStore} from "@/store";
 
 export default {
   name: "ChildCAIsValidAdminList",
@@ -62,6 +64,8 @@ export default {
     dialogVisible: false,
     SerialNumber: "23333333",
     tableData: [],
+    store: useStore(),
+
   }),
   components: {
     // ElSpace,
@@ -80,7 +84,15 @@ export default {
     ElRow,
   },
   mounted() {
-    axios.post(APIS.isvalidlistadmin, {}).then(res => {
+    const jsHttps=new JsHttps();
+    const adminpublickey=this.store.publickey
+    const myRequestData={
+      "temp":233,
+    }
+    axios.post(APIS.isvalidlistadmin, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+    ).then(res => {
+      console.log(res)
+      res=jsHttps.decryptResponseData(res.data);
       this.tableData = res.data.data
     }).catch(reason => {
       console.log(reason);

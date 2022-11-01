@@ -90,6 +90,7 @@ import {copyText} from "vue3-clipboard";
 import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
 export default {
   name: "ChildCARequest",
   data: () => ({
@@ -116,11 +117,16 @@ export default {
   },
   methods: {
     requestResult() {
-      axios.post(APIS.request, {
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={
         justiceID:this.justiceID,
-      }).then(res => {
-        if(res.data.success===true){
-          this.SerialNumber=res.data.SerialNumber
+      }
+      axios.post(APIS.request, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      ).then(res => {
+        res=jsHttps.decryptResponseData(res.data);
+        if(res.success===true){
+          this.SerialNumber=res.SerialNumber
         }else{
           this.title="未查询到相关信息!";
         }
