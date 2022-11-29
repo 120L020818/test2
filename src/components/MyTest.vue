@@ -56,5 +56,4 @@ export default {
 
 <style scoped>
 @import "../styles/common.css";
-
 </style>

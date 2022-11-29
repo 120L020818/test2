@@ -44,8 +44,6 @@
       </el-row>
     </el-card>
   </el-dialog>
-
-
   <el-row>
     <el-col :span="6"></el-col>
     <el-col :span="10" style="text-align: center">
@@ -75,21 +73,6 @@
           </el-form-item>
 
           <el-form-item label="公钥" style="line-height: 20px">
-<!--            <el-upload-->
-<!--                class="upload-demo"-->
-<!--                drag-->
-<!--                action=""-->
-<!--                multiple-->
-<!--            >-->
-<!--              <div class="el-upload__text">-->
-<!--                Drop file here or <em>click to upload</em>-->
-<!--              </div>-->
-<!--              <template #tip>-->
-<!--                <div class="el-upload__tip">-->
-<!--                  jpg/png files with a size less than 500kb-->
-<!--                </div>-->
-<!--              </template>-->
-<!--            </el-upload>-->
             <el-input v-model="publickey"/>
           </el-form-item>
           <el-form-item label="申请年限">
@@ -145,7 +128,6 @@
 
 
 </template>
-
 <script>
 import {ArrowLeft, ArrowRight, Download, Check, Upload,UploadFilled} from "@element-plus/icons-vue"
 import {ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
@@ -153,7 +135,6 @@ import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
 import JsHttps from "js-https";
-
 
 export default {
   name: "ChildCAApply",
@@ -175,21 +156,6 @@ export default {
     Download,
   },
   methods: {
-    // onClick233(){
-    //   this.adminpublickey=this.store.publickey
-    //   const jsHttps=new JsHttps();
-    //   const myRequestData={
-    //     name:"Flora",
-    //     age:20,
-    //     interests:["reading","writing","exploring","law"]
-    //   };
-    //   axios.post(APIS.demo,
-    //       jsHttps.encryptRequestData(myRequestData,this.adminpublickey)
-    //   ).then(
-    //       res=>{
-    //         console.log(jsHttps.decryptResponseData(res.data));
-    //       });
-    // },
     onClick() {
       const adminpublickey=this.store.publickey
       const jsHttps=new JsHttps();

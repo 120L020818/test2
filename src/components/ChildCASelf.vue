@@ -6,7 +6,6 @@
       style="font-size: 20px;line-height:50px;text-align:center">
 
     <el-card class="box-card" style="line-height: 50px">
-<!--      <el-space direction="vertical" size="20" spacer="|">-->
         <el-row style="font-size: 20px">
           <el-col :span="12" style="text-align: left;">用户名:</el-col>
           <el-col :span="12" style="text-align: left;">{{ username }}</el-col>
@@ -44,8 +43,6 @@
         </el-row>
    </el-card>
   </el-dialog>
-
-
   <el-row>
     <el-col :span="6">
     </el-col>
@@ -64,20 +61,11 @@
           </el-col>
         </el-row>
       </div>
-
-
-    </el-col>
-
-    <el-col :span="6">
-
-
     </el-col>
     <el-col :span="6">
-
-
     </el-col>
-
-
+    <el-col :span="6">
+    </el-col>
   </el-row>
 
 </template>
@@ -88,11 +76,6 @@ import {
   ElCard,
   ElSpace,
   ElDialog,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElSelect,
-  ElOption,
   ElButton,
   ElButtonGroup,
   ElCol,
@@ -121,11 +104,6 @@ export default {
     // ElSpace,
     // ElCard,
     ElDialog,
-    // ElForm,
-    // ElFormItem,
-    // ElInput,
-    // ElSelect,
-    // ElOption,
     ElButton,
     Check,
     // ElButtonGroup,
@@ -168,10 +146,6 @@ export default {
 .text {
   font-size: 14px;
 }
-
-/*.item {*/
-/*  margin-bottom: 18px;*/
-/*}*/
 
 .box-card {
   width: 480px;

@@ -44,20 +44,11 @@
           </el-col>
         </el-row>
       </div>
-
-
-    </el-col>
-
-    <el-col :span="6">
-
-
     </el-col>
     <el-col :span="6">
-
-
     </el-col>
-
-
+    <el-col :span="6">
+    </el-col>
   </el-row>
 
 </template>

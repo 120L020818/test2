@@ -6,7 +6,6 @@
       style="font-size: 20px">
     <template #footer>
       <span class="dialog-footer">
-<!--        <el-button @click="dialogVisible = false">Cancel</el-button>-->
         <el-button type="primary" @click="dialogVisible = false"
         >确认</el-button>
       </span>
@@ -25,15 +24,11 @@
             style="max-width: 500px;">
           <span
               style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>在此可以进行证书手动撤销:</span><br>
-          <!--          <span-->
-          <!--              style='font-size: 40px;font-family:"Aa新华墨竹体 (非商业使用)", serif;text-align:left'>以查询证书申请结果:</span>-->
-
           <el-form-item label="证书序号">
             <el-input v-model="ID"/>
           </el-form-item>
         </el-form>
         <br>
-
         <el-row>
           <el-col :span="24" style="text-align: center">
             <el-button plain type="primary" @click="deleteResult">
@@ -45,20 +40,11 @@
           </el-col>
         </el-row>
       </div>
-
-
-    </el-col>
-
-    <el-col :span="6">
-
-
     </el-col>
     <el-col :span="6">
-
-
     </el-col>
-
-
+    <el-col :span="6">
+    </el-col>
   </el-row>
 
 </template>

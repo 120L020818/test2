@@ -46,16 +46,9 @@
 </template>
 
 <script>
-import {ArrowLeft, ArrowRight, Download, Check, Upload, UploadFilled} from "@element-plus/icons-vue"
 import {
   ElTable,
   ElTableColumn,
-  ElUpload,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElSelect,
-  ElOption,
   ElButton,
   ElButtonGroup,
   ElCol,

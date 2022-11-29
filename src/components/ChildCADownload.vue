@@ -45,24 +45,12 @@
           </el-col>
         </el-row>
       </div>
-
-
-
-
-    </el-col>
-
-    <el-col :span="6">
-
-
     </el-col>
     <el-col :span="6">
-
-
     </el-col>
-
-
+    <el-col :span="6">
+    </el-col>
   </el-row>
-
 </template>
 
 <script>
@@ -110,7 +98,6 @@ export default {
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
-
         // this.dialogVisible = true;
       }).catch(reason => {
         console.log(reason);

@@ -62,19 +62,19 @@
               </template>
               <el-menu-item-group>
                 <!--                <template #title>Group 1</template>-->
-                <el-menu-item index="1-1" @click="onclick2" disabled="true">
+                <el-menu-item index="1-1"  disabled="true">
                   <el-icon>
                     <Switch/>
                   </el-icon>
                   <span>证书申请</span>
                 </el-menu-item>
-                <el-menu-item index="1-2" @click="onclick3" disabled="true">
+                <el-menu-item index="1-2"  disabled="true">
                   <el-icon>
                     <Search/>
                   </el-icon>
                   <span>证书申请结果查询</span>
                 </el-menu-item>
-                <el-menu-item index="1-3" @click="onclick4" disabled="true">
+                <el-menu-item index="1-3" disabled="true">
                   <el-icon>
                     <Download/>
                   </el-icon>
@@ -219,9 +219,6 @@ export default {
     },onclick10(){
       this.$router.push({name: 'adminvalidlist'});
     },
-    // onclick11(){
-    //   this.$router.push({name: 'adminvalid'});
-    // },
     onclick6() {
       this.$router.push({name: 'admindelete'});
     }, onclick7() {

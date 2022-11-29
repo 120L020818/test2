@@ -154,7 +154,6 @@ export default {
   mounted() {
     this.$router.replace({name: 'child1'});
     this.name=this.store.username;
-
   },
   components: {
     ElDropdownItem,
@@ -211,8 +210,7 @@ export default {
     }, onclick7() {
       this.$router.push({name: 'caSelf'});
     }, onclick8() {
-      // console.log("看这里:"+this.store.username);
-      // console.log("看这里:"+this.store.username);
+      this.$router.replace({name: 'login'});
       axios.post(APIS.logout, {
         username: this.store.username,
       }).then(res => {
@@ -220,7 +218,6 @@ export default {
       }).finally(() => {
       })
       this.store.$reset();
-      this.$router.replace({name: 'login'});
     }
   }
 }

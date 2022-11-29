@@ -37,16 +37,10 @@
   </el-row>
 </template>
 <script>
-import {ArrowLeft, ArrowRight, Download, Check, Search} from "@element-plus/icons-vue"
 import {
   ElCard,
   ElSpace,
   ElDialog,
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElSelect,
-  ElOption,
   ElButton,
   ElButtonGroup,
   ElCol,
@@ -65,17 +59,11 @@ export default {
     SerialNumber: "23333333",
     tableData: [],
     store: useStore(),
-
   }),
   components: {
     // ElSpace,
     // ElCard,
     ElDialog,
-    // ElForm,
-    // ElFormItem,
-    // ElInput,
-    // ElSelect,
-    // ElOption,
     ElButton,
     // Check,
     // Search,
