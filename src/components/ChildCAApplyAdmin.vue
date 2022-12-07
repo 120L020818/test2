@@ -58,6 +58,7 @@ import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
 import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 
 export default {

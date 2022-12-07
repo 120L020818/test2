@@ -83,6 +83,7 @@ import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
 import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 export default {
 
@@ -112,16 +113,25 @@ export default {
   methods:{
     deleteResult() {
       this.SerialNumber=this.ID
-      const adminpublickey=this.store.publickey
-      const jsHttps=new JsHttps()
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
       const myRequestData={
         SerialNumber:this. SerialNumber,
         username:this.store.username
       }
-      axios.post(APIS.cadelete, jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata = {
+        data: encdata,
+        resmac: mac
+      }
+
+      axios.post(APIS.cadelete,resdata
       ).then(res => {
-        res=jsHttps.decryptResponseData(res.data);
-        if(res.success===false){
+        var mydata=jsHttps.decryptResponseData(res.data);
+        if(mydata.success===false){
             this.title="撤销失败!"
         }
         this.dialogVisible = true;

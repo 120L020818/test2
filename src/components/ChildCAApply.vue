@@ -48,7 +48,6 @@
     <el-col :span="6"></el-col>
     <el-col :span="10" style="text-align: center">
       <div style="background-color: rgba(233, 238, 243, 0.8) ;border-radius: 10px">
-
         <el-form
             label-position="right"
             label-width="200px"
@@ -110,12 +109,6 @@
                 <Upload/>
               </el-icon>
             </el-button>
-<!--            <el-button plain type="primary" @click="onClick233">-->
-<!--              点这里发送加密请求-->
-<!--              <el-icon>-->
-<!--                <Upload/>-->
-<!--              </el-icon>-->
-<!--            </el-button>-->
           </el-col>
         </el-row>
 
@@ -135,7 +128,8 @@ import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
 import JsHttps from "js-https";
-
+import JSEncrypt from "jsencrypt";
+import CryptoJS from "crypto-js";
 export default {
   name: "ChildCAApply",
   data: () => ({
@@ -157,8 +151,8 @@ export default {
   },
   methods: {
     onClick() {
-      const adminpublickey=this.store.publickey
-      const jsHttps=new JsHttps();
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
       const myRequestData={
         juridicalperson:this.juridicalperson,
         username:this.store.username,
@@ -169,9 +163,21 @@ export default {
         years:this.years,
         publickey:this.publickey,
       }
-      axios.post(APIS.apply,jsHttps.encryptRequestData(myRequestData,adminpublickey)
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+
+
+      axios.post(APIS.apply,
+         resdata
       ).then(res => {
         this.dialogVisible = true;
+        console.log(res)
         console.log(jsHttps.decryptResponseData(res.data));
       }).catch(reason => {
         console.log(reason);

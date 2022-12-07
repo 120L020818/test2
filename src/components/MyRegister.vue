@@ -85,6 +85,8 @@ import {ElButton, ElRow, ElSpace, ElProgress, ElDialog,} from "element-plus";
 import axios from "axios";
 import APIS from "../modules/api";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 export default {
   data: () => ({
@@ -179,12 +181,24 @@ export default {
       }
     },
     sendMyEmail() {
-      console.log(this.email);
-      axios.post(APIS.ecode, {
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData = {
         email: this.email,
-      }).then(res => {
-        console.log(res.data);
-        this.trueEmailCode = res.data.captcha;
+      }
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      axios.post(APIS.ecode, resdata
+      ).then(res => {
+        var mydata=jsHttps.decryptResponseData(res.data)
+        console.log(mydata);
+        this.trueEmailCode = mydata.captcha;
       }).catch(reason => {
       }).finally(() => {
       })
@@ -234,22 +248,38 @@ export default {
       }
       console.log(flag4);
 
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData = {
+        username: this.username,
+        sex: this.sex === "man" ? "1" : "0",
+        password: this.password,
+        birthday: this.birthDate,
+        phone: this.phoneNumber,
+        email: this.email,
+      }
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+
       if (flag1 && flag2 && flag3 && flag4) {
-        axios.post(APIS.register, {
-          username: this.username,
-          sex: this.sex === "man" ? "1" : "0",
-          password: this.password,
-          birthday: this.birthDate,
-          phone: this.phoneNumber,
-          email: this.email,
-        }).then(res => {
-          if (res.data.success === true) {
+        axios.post(APIS.register, resdata
+        ).then(res => {
+          console.log(jsHttps.decryptResponseData(res.data));
+          var mydata=jsHttps.decryptResponseData(res.data);
+          console
+          if (mydata.success === true) {
             console.log(res)
             this.innerMessage = "跳转";
             this.message = "您已注册成功!点击跳转";
             this.store.username = this.username;
             this.dialogVisible = true;
-          } else if (res.data.success === false && res.data.hasB4 === true) {
+          } else if (mydata.success === false && mydata.hasB4 === true) {
             this.innerMessage = "确认";
             this.message = "用户名冲突,请更换用户名!";
             this.dialogVisible = true;
@@ -261,8 +291,6 @@ export default {
         this.innerMessage = "确认"
         this.dialogVisible = true;
       }
-
-
     }
   },
 
@@ -271,7 +299,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/common.css";
 
 .demo-progress .el-progress--line {
   margin-left: 40px;

@@ -1,22 +1,38 @@
 <template>
+  <el-button type="success" @click="onClick"></el-button>
   <el-table :data="tableData" stripe style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
+    <el-table-column prop="date" label="Date" width="180"/>
+    <el-table-column prop="name" label="Name" width="180"/>
+    <el-table-column prop="address" label="Address"/>
   </el-table>
 </template>
 
 <script>
-import {ElTable,ElUpload,ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElButton, ElButtonGroup, ElCol, ElRow} from "element-plus"
-import {Download, Upload,UploadFilled} from "@element-plus/icons-vue";
+import {
+  ElTable,
+  ElUpload,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSelect,
+  ElOption,
+  ElButton,
+  ElButtonGroup,
+  ElCol,
+  ElRow
+} from "element-plus"
+import {Download, Upload, UploadFilled} from "@element-plus/icons-vue";
 import {useStore} from "@/store";
-
+import JsHttps from "js-https";
+import axios from "axios";
+import APIS from "@/modules/api";
+import CryptoJS from "crypto-js"
 export default {
-  name: "MyTemp",
+  name: "MyTest",
   data: () => ({
     store: useStore(),
     isCollapse: false,
-    name:"",
+    name: "",
     tableData: [
       {
         date: '2016-05-03',
@@ -41,19 +57,35 @@ export default {
     ],
   }),
   components: {
-    ElTable,
-    // ElUpload,
-    // UploadFilled,
-    // ArrowLeft, ArrowRight
+    ElTable, ElButton,
   },
   methods: {
-    // test(){
-    //   this.$router.push({name:'test'})
-    // }
+    onClick() {
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData = {
+        test: "hello!!"
+      }
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      axios.post(APIS.test,resdata
+      ).then(res => {
+        console.log(jsHttps.decryptResponseData(res.data));
+      }).catch(reason => {
+        console.log(reason);
+      }).finally(() => {
+        console.log("FINALLY");
+      })
+    }
   }
 }
 </script>
 
 <style scoped>
-@import "../styles/common.css";
 </style>

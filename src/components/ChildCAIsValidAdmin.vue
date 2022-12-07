@@ -71,6 +71,8 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 export default {
   name: "ChildCAIsValidAdmin",
@@ -97,11 +99,25 @@ export default {
   },
   methods: {
     isValidResult() {
-      axios.post(APIS.isvalid, {
-        SerialNumber:this. SerialNumber,
-      }).then(res => {
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData = {
+        SerialNumber: this.SerialNumber,
+      }
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata = {
+        data: encdata,
+        resmac: mac
+      }
+
+      axios.post(APIS.isvalid, resdata
+      ).then(res => {
+        var mydata=jsHttps.decryptResponseData(res.data);
         this.dialogVisible = true;
-        console.log(res.data);
+        console.log(mydata.data);
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {

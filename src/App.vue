@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import {useStore} from "@/store";
-
 // import myLogin from "@/components/MyLogin";
 // import myRegister from "@/components/MyRegister";
 // import myAgreement from "@/components/MyAgreement";

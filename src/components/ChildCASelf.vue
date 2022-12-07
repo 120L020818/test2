@@ -85,6 +85,7 @@ import axios from "axios";
 import APIS from "@/modules/api";
 import {useStore} from "@/store/index";
 import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 export default {
   name: "ChildCASelf",
@@ -115,16 +116,25 @@ export default {
       const adminpublickey=this.store.publickey
       const jsHttps=new JsHttps();
       const myRequestData={username:this.store.username}
-      axios.post(APIS.self, jsHttps.encryptRequestData(myRequestData,adminpublickey)).then(res => {
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      axios.post(APIS.self,
+          resdata).then(res => {
         console.log(res.data);
-        res=jsHttps.decryptResponseData(res.data)
-        this.username = res.username;
-        this.sex = res.sex;
-        this.birthday = res.birthday;
-        this.phone = res.phone;
-        this.email = res.email;
-        this.regDay = res.regDay;
-        this.cerHave = res.cerHave;
+        var mydata=jsHttps.decryptResponseData(res.data)
+        this.username = mydata.username;
+        this.sex = mydata.sex;
+        this.birthday = mydata.birthday;
+        this.phone = mydata.phone;
+        this.email = mydata.email;
+        this.regDay = mydata.regDay;
+        this.cerHave = mydata.cerHave;
         this.dialogVisible = true;
       }).catch(reason => {
         console.log(reason);

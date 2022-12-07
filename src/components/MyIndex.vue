@@ -78,7 +78,7 @@
                   <el-icon>
                     <Download/>
                   </el-icon>
-                  <span>证书下载</span>
+                  <span>证书获取</span>
                 </el-menu-item>
                 <el-menu-item index="1-4" @click="onclick5">
                   <el-icon>
@@ -224,12 +224,6 @@ export default {
 </script>
 
 <style>
-@import "../styles/common.css";
-
-/*.el-menu-vertical-demo:not(.el-menu--collapse) {*/
-/*  width: 200px;*/
-/*  min-height: 400px;*/
-/*}*/
 
 .common-layout {
   width: 100%;

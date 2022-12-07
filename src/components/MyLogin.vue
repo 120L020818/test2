@@ -60,6 +60,8 @@ import axios from "axios";
 import APIS from "../modules/api";
 import createCode from "@/modules/method";
 import {useStore} from "@/store/index";
+import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 
 export default {
   name: "MyLogin",
@@ -95,25 +97,39 @@ export default {
       return this.trueCaptcha;
     },
     onLoginClick() {
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData = {
+        username: this.username,
+        password: this.password,
+        captcha: this.captcha
+      }
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      console.log("看这里")
       if (this.captcha === this.trueCaptcha) {
-        axios.post(APIS.login, {
-          username: this.username,
-          password: this.password,
-          captcha: this.captcha
-        }).then(res => {
-          console.log(res.data);
-          if (res.data.success === true && res.data.isAdmin === false) {
+        axios.post(APIS.login,
+            resdata
+        ).then(res => {
+          var mydata=jsHttps.decryptResponseData(res.data)
+          if (mydata.success === true && mydata.isAdmin === false) {
             this.message="登陆成功!";
             this.dialogVisible = true;
-
             this.store.username = this.username;
-          } else if (res.data.success === true && res.data.isAdmin === true) {
+            console.log("看那里")
+
+          } else if (mydata.success === true && mydata.isAdmin === true) {
             this.message="登陆成功!";
             this.store.username = this.username;
-
             this.dialogVisible = true;
             console.log("你是管理员")
-          }else if(res.data.success===false){
+          }else if(mydata.success===false){
             this.message="用户名或密码错误!";
             this.dialogVisible = true;
           }
@@ -137,7 +153,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../styles/common.css";
 
 .beg-login-box {
   width: 450px;
