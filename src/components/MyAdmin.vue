@@ -30,6 +30,7 @@
                   <el-dropdown-menu>
                     <el-dropdown-item @click="onclick7">个人账号</el-dropdown-item>
                     <el-dropdown-item @click="onclick8">退出登录</el-dropdown-item>
+                    <el-dropdown-item  @click="show">测试接口</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -154,6 +155,9 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
+import JSEncrypt from "jsencrypt";
 // import {RouterLink} from "vue-router"
 export default {
   name: "myAdmin",
@@ -201,6 +205,113 @@ export default {
 
   },
   methods: {
+
+    show(){
+      const adminpublickey=this.store.publickey
+      const jsHttps=new JsHttps();
+      const myRequestData={ data:"2333"}
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      console.log("233333");
+      axios.post(APIS.vrfy, resdata
+      ).then(res => {
+        var mydata=jsHttps.decryptResponseData(res.data);
+        var realdata=mydata.mydata;
+        console.log(realdata);
+
+        var encUserName=realdata.pi.userName;
+        var encAccount=realdata.pi.account;
+        var key=realdata.aes_key;
+        var decname = CryptoJS.AES.decrypt(encUserName, key, {
+          iv: key,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        decname = CryptoJS.enc.Utf8.stringify(decname);
+        console.log('明文：', decname);
+
+        var decaccount = CryptoJS.AES.decrypt(encAccount, key, {
+          iv: key,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        decaccount = CryptoJS.enc.Utf8.stringify(decaccount);
+        console.log('明文：', decaccount);
+        // axios.post()
+
+        var decds= CryptoJS.AES.decrypt(realdata.ds, key, {
+          iv: key,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        decds=CryptoJS.enc.Utf8.stringify(decds);
+
+        var pimd = {
+          userName: CryptoJS.SHA1(decname).toString(),
+          account: CryptoJS.SHA1(decaccount).toString(),
+        }
+        console.log(pimd);
+        console.log(realdata.oimd);
+        var pomd = CryptoJS.SHA1(pimd.toString() + realdata.oimd.toString()).toString();
+
+        console.log(pomd);
+
+        var verify = new JSEncrypt();
+        verify.setPublicKey(this.store.customer);
+        var verified = verify.verify(pomd, decds, CryptoJS.SHA256);
+        console.log(verified);
+
+        // const adminpublickey = this.store.publickey
+        // const jsHttps = new JsHttps();
+        const myRequestData2 = {
+          verified:verified
+        }
+        var encdata2 = jsHttps.encryptRequestData(myRequestData2, adminpublickey)
+
+        axios.post(APIS.log,
+            encdata2
+        ).then(res => {
+          var mydata=jsHttps.decryptResponseData(res.data);
+          const myRequestData3 = {
+            mydata:2333
+          }
+          var encdata3 = jsHttps.encryptRequestData(myRequestData3, adminpublickey)
+
+          axios.post(APIS.ret,encdata3).then(
+              res=>{
+                var mydata=jsHttps.decryptResponseData(res.data);
+                console.log(mydata.mydata);
+              }
+          )
+
+          if(mydata.success===true){
+            console.log("结果记录成功!");
+          }else{
+            console.log("记录失败!");
+          }
+        }).catch(reason => {
+          console.log(reason);
+        }).finally(() => {
+          console.log("FINALLY");
+        })
+
+        // var encrypt = new JSEncrypt();
+        // var decrypt = new JSEncrypt()
+        // var sign = new JSEncrypt();
+        // sign.setPrivateKey(customerPrivate);
+        // var ds = sign.sign(pomd, CryptoJS.SHA256, "sha256");
+        // console.log("双重签名", ds)
+
+      }).catch(reason => {
+      }).finally(() => {
+      })
+    },
     handleOpen() {
 
     },

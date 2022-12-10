@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header style="text-align: right; font-size: 30px">
+      <el-header style="text-align: right; font-size: 30px" >
         <el-row>
           <el-col :span="3" style="text-align: left">
             <el-radio-group v-model="isCollapse">
@@ -185,6 +185,7 @@ export default {
 
   },
   methods: {
+
     handleOpen() {
 
     },

@@ -127,6 +127,7 @@ export default {
       ).then(res => {
         var mydata=jsHttps.decryptResponseData(res.data);
         if(mydata.success===true){
+          console.log(mydata.success);
           this.SerialNumber=mydata.SerialNumber
         }else{
           this.title="未查询到相关信息!";

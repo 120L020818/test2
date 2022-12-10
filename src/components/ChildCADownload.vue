@@ -101,7 +101,7 @@ export default {
     dialogVisible: false,
     SerialNumber: "",
     store: useStore(),
-    message:"恭喜你,证书已下载成功!",
+    message: "恭喜你,证书已下载成功!",
     value: 0,
     dist: ["primary", "success"],
     mcolor: "primary",
@@ -127,13 +127,13 @@ export default {
         username: this.store.username,
         SerialNumber: this.SerialNumber,
       }
-      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
-      const mac={
-        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
       }
-      const resdata={
-        data:encdata,
-        resmac:mac
+      const resdata = {
+        data: encdata,
+        resmac: mac
       }
 
       axios.post(APIS.download, resdata, {responseType: 'blob'},).then(res => {
@@ -144,8 +144,8 @@ export default {
         document.body.appendChild(a)
         a.click()
         document.body.removeChild(a)
-        this.message="恭喜你,证书已下载成功!";
-        this.dialogVisible=true;
+        this.message = "恭喜你,证书已下载成功!";
+        this.dialogVisible = true;
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
@@ -160,69 +160,72 @@ export default {
         username: this.store.username,
         SerialNumber: this.SerialNumber,
       }
-      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
-      const mac={
-        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
       }
-      const resdata={
-        data:encdata,
-        resmac:mac
+      const resdata = {
+        data: encdata,
+        resmac: mac
       }
-      var myurl="http://541de9bf.cpolar.top/shop/user/getCA";
 
-      axios.post(myurl,resdata
+      axios.post(APIS.email, resdata
       ).then(res => {
-        var target= jsHttps.decryptResponseData(res.data);
+        var target = jsHttps.decryptResponseData(res.data);
         console.log(target);
-        this.message="恭喜你,证书已下载成功!";
-        this.dialogVisible=true;
+        var myurl = "http://192.168.0.102:9876/shop/user/getCA";
+        var encdata2 = jsHttps.encryptRequestData(target, adminpublickey)
+        console.log(encdata2)
+        axios.post(myurl,
+            encdata2,
+        ).then(res => {
+          this.message = "恭喜你,证书已传输成功!";
+          this.dialogVisible = true;
+          res = jsHttps.decryptResponseData(res.data);
+        }).catch(reason => {
+          console.log(reason);
+        }).finally(() => {
+          console.log("FINALLY");
+        })
       }).catch(reason => {
         console.log(reason);
       }).finally(() => {
         console.log("FINALLY");
       })
-
-      //todo
-      // axios.post(APIS, target,
-      // ).then(res => {
-      //   res=jsHttps.decryptResponseData(res.data);
-      //   }).catch(reason => {
-      //     console.log(reason);
-      //   }).finally(() => {
-      //     console.log("FINALLY");
-      //   })
-      // }
     },
-
     getCA() {
       const adminpublickey = this.store.publickey
       const jsHttps = new JsHttps();
-      const myRequestData={
-        SerialNumber:this.SerialNumber,
+      const myRequestData = {
+        SerialNumber: this.SerialNumber,
       }
-      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
-      const mac={
-        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
       }
-      const resdata={
-        data:encdata,
-        resmac:mac
+      const resdata = {
+        data: encdata,
+        resmac: mac
       }
-      var hasIt=false;
+      var hasIt = false;
       axios.post(APIS.isava, resdata
       ).then(res => {
-        var mydata=jsHttps.decryptResponseData(res.data);
+        var mydata = jsHttps.decryptResponseData(res.data);
         hasIt = mydata.success;
         console.log(hasIt)
-        if(hasIt===true){
+        if (hasIt === true) {
+
           if (this.value === false) {
+            console.log("调用了downloadCA")
             this.downloadCA();
           } else {
+            console.log("调用了emailCA")
             this.emailCA();
           }
-        }else{
-          this.message="序列号有误,请仔细检查。"
-          this.dialogVisible=true;
+
+        } else {
+          this.message = "序列号有误,请仔细检查。"
+          this.dialogVisible = true;
         }
       }).catch(reason => {
         console.log(reason);

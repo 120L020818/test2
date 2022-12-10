@@ -74,8 +74,9 @@ export default {
         data:encdata,
         resmac:mac
       }
-      axios.post(APIS.test,resdata
+      axios.post(APIS.bank,encdata
       ).then(res => {
+        console.log(res);
         console.log(jsHttps.decryptResponseData(res.data));
       }).catch(reason => {
         console.log(reason);

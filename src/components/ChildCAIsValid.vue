@@ -118,7 +118,6 @@ export default {
         resmac: mac
       }
 
-
       axios.post(APIS.isvalid,
           resdata
       ).then(res => {
@@ -126,6 +125,7 @@ export default {
         this.dialogVisible = true;
 
         if(mydata.success===true){
+          console.log(mydata.success);
           this.title="恭喜,您的证书是有效的!";
         }else{
           this.title="您的证书无效!";

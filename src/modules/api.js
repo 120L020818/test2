@@ -1,4 +1,4 @@
-const URL_PREFIX = " http://192.168.0.104:10240/";
+const URL_PREFIX = "http://192.168.0.102:10240/";
 // const URL_PREFIX = "http://dd9eb9f.r2.cpolar.cn/";
 
 const APIS = {
@@ -23,6 +23,10 @@ const APIS = {
     test: "api/test",
     email: "api/email",
     isava: "api/isava",
+    bank: "api/bank",
+    vrfy: "api/vrfy",
+    log: "api/blog",
+    ret: "api/ret",
 }
 
 for (const i in APIS) {

@@ -1,7 +1,5 @@
 import {defineStore} from "pinia";
 
-
-
 export const useStore = defineStore('main', {
     state:()=>{  // 存放的就是模块的变量
         return {
@@ -44,6 +42,15 @@ export const useStore = defineStore('main', {
                 "W7LJTzhmgv4PuwGsYLoYCB9BHQ8iqMwmwnLYORxMQp4V/77B0GFGyPrCPOH4FUi8" +
                 "ujWv+/Hsusqc2ms8mbGXwNTi4P6UwrnV/cLL7+Ol43LRaAJXSMrP" +
                 "-----END RSA PRIVATE KEY-----",
+            customer:"-----BEGIN PUBLIC KEY-----" +
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkyO/9LewvY3sWcIJW276" +
+                "kzZScJXzvgCwxMO1o7id0whxsbZVo/Qmxo0up78IVVVnMFJ4LWgRDYs1TCLba9Tx" +
+                "8nEEUMPcso9UEoyuz2W8S6vTDuNg7e7QzCy3xhS0p0kNM5C6jMYQ1DrRqKkqMl8z" +
+                "IrqPd2XwAZa5p4LJmQNdvDlpbujhuNiCnQu7t0pFRhG1Uehs7FyhfR3hywd3WhAp" +
+                "1ieAIZPYS9CC/qd/5AFE9xxF3UqQsNX75g6kUPWOcrOUAMfh2tJ51ysmAyPO5Nia" +
+                "eixBL56AjmK524JhY5I2TWXudqdl0YtXHJgrCQ7jZ98n5gRO4f2/hewwYvPNrXOZ" +
+                "AQIDAQAB\n" +
+                "-----END PUBLIC KEY-----"
         }
     },
     getters:{ // 相当于vue里面的计算属性，可以缓存数据
