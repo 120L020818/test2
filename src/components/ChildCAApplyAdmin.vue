@@ -18,7 +18,7 @@
     <el-col :span="4"></el-col>
     <el-col :span="14" style="text-align: center">
       <div style="background-color: rgba(233, 238, 243, 0.8) ;border-radius: 10px">
-        <el-table @row-click="onRowClick" :row-class-name="rouClassNameFn" :data="tableData" stripe
+        <el-table :data="tableData" stripe
                   style="width: 100%;border-radius: 10px">
           <el-table-column prop="authority" label="组织机构"/>
           <el-table-column prop="ID" label="工商号"/>

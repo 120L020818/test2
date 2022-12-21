@@ -135,7 +135,6 @@ export default {
         data: encdata,
         resmac: mac
       }
-
       axios.post(APIS.download, resdata, {responseType: 'blob'},).then(res => {
         const a = document.createElement('a')
         a.style.display = 'none'
@@ -173,8 +172,10 @@ export default {
       ).then(res => {
         var target = jsHttps.decryptResponseData(res.data);
         console.log(target);
-        var myurl = "http://192.168.0.102:9876/shop/user/getCA";
-        var encdata2 = jsHttps.encryptRequestData(target, adminpublickey)
+        var myurl = "http://192.168.0.105:9876/shop/user/getCA";
+        var customerpubkey=this.store.customer
+        //使用电商的公钥发送即可
+        var encdata2 = jsHttps.encryptRequestData(target, customerpubkey)
         console.log(encdata2)
         axios.post(myurl,
             encdata2,

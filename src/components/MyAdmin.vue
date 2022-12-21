@@ -1,5 +1,19 @@
 <template>
   <div class="common-layout">
+    <el-dialog
+        v-model="dialogVisible"
+        :title=title
+        width="30%"
+        style="font-size: 20px">
+      <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false"
+        >确认</el-button>
+      </span>
+      </template>
+    </el-dialog>
+
+
     <el-container>
       <el-header style="text-align: right; font-size: 30px">
         <el-row>
@@ -30,7 +44,7 @@
                   <el-dropdown-menu>
                     <el-dropdown-item @click="onclick7">个人账号</el-dropdown-item>
                     <el-dropdown-item @click="onclick8">退出登录</el-dropdown-item>
-                    <el-dropdown-item  @click="show">测试接口</el-dropdown-item>
+<!--                    <el-dropdown-item  @click="show">测试接口</el-dropdown-item>-->
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -165,6 +179,8 @@ export default {
     store: useStore(),
     isCollapse: false,
     name:"",
+    dialogVisible: false,
+    title:"双重签名验证失败!",
   }),
 
   mounted() {
@@ -292,6 +308,8 @@ export default {
 
           if(mydata.success===true){
             console.log("结果记录成功!");
+            this.title="双重签名验证成功!"
+            this.dialogVisible=true;
           }else{
             console.log("记录失败!");
           }

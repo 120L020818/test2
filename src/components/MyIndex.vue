@@ -142,6 +142,8 @@ import {
 } from "element-plus"
 import axios from "axios";
 import APIS from "@/modules/api";
+import JsHttps from "js-https";
+import CryptoJS from "crypto-js";
 // import {RouterLink} from "vue-router"
 export default {
   name: "myIndex",
@@ -211,10 +213,24 @@ export default {
     }, onclick7() {
       this.$router.push({name: 'caSelf'});
     }, onclick8() {
-      this.$router.replace({name: 'login'});
-      axios.post(APIS.logout, {
-        username: this.store.username,
-      }).then(res => {
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData={
+        username:this.store.username,
+      }
+      var encdata = jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac = {
+        mac: CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata = {
+        data: encdata,
+        resmac: mac
+      }
+
+      axios.post(APIS.logout,
+          resdata
+      ).then(res => {
+        this.$router.replace({name: 'login'});
       }).catch(reason => {
       }).finally(() => {
       })

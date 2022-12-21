@@ -1,6 +1,4 @@
-const URL_PREFIX = "http://192.168.0.102:10240/";
-// const URL_PREFIX = "http://dd9eb9f.r2.cpolar.cn/";
-
+const URL_PREFIX = "http://192.168.0.106:10240/";
 const APIS = {
     login: "api/login",
     ecode: "api/ecode",
@@ -11,6 +9,7 @@ const APIS = {
     dlgen: "api/dlgen",
     dlpro: "api/dlpro",
     apply: "api/apply",
+    wopka: "api/wopka",
     download: "api/download",
     isvalid: "api/isvalid",
     cadelete: "api/cadelete",
@@ -32,10 +31,6 @@ const APIS = {
 for (const i in APIS) {
     APIS[i] = URL_PREFIX + APIS[i];
 }
-
-// const APIS2 = {
-//     xiaoye:"http://upg2t5.natappfree.cc/shop/user/getCA",
-// }
 
 export default APIS
 

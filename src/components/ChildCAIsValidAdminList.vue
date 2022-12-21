@@ -19,7 +19,7 @@
     <el-col :span="14" style="text-align: center">
       <div style="background-color: rgba(233, 238, 243, 0.8) ;border-radius: 10px">
 
-        <el-table :data="tableData" stripe style="width: 100%;border-radius: 10px">
+        <el-table :data="tableData" stripe style="width: 100%;border-radius: 10px" :row-class-name="tableRowClassName">
           <el-table-column prop="authority" label="组织机构"/>
           <el-table-column prop="ID" label="工商号"/>
           <el-table-column prop="username" label="法人姓名"/>

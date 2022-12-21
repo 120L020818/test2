@@ -72,7 +72,19 @@
           </el-form-item>
 
           <el-form-item label="公钥" style="line-height: 20px">
-            <el-input v-model="publickey"/>
+            <el-col :span="12">
+              <el-input v-model="publickey" :disabled="cantuse"/>
+            </el-col>
+            <el-col :span="12">
+              <el-switch
+                  v-model="value"
+                  active-text="自动"
+                  inactive-text="手动"
+                  style="--el-switch-on-color:#13ce66; --el-switch-off-color: #409eff"
+                  @click="change"
+              />
+            </el-col>
+
           </el-form-item>
           <el-form-item label="申请年限">
             <el-select v-model="years" placeholder="请选择您的申请年限">
@@ -87,13 +99,13 @@
 
           <el-col :span="15" style="text-align: center">
             <el-button-group>
-              <el-button type="success" @click="dlGenerator">
+              <el-button type="success" @click="dlGenerator" :disabled="cantuse">
                 <el-icon>
                   <Download/>
                 </el-icon>
                 点击下载密钥生成程序
               </el-button>
-              <el-button type="primary" @click="dlProtector">
+              <el-button type="primary" @click="dlProtector" :disabled="cantuse">
                 点击下载密钥保护程序
                 <el-icon>
                   <Download/>
@@ -103,7 +115,7 @@
           </el-col>
 
           <el-col :span="9" style="text-align: center">
-            <el-button plain type="primary" @click="onClick">
+            <el-button plain type="primary" @click="submit">
               点击提交申请
               <el-icon>
                 <Upload/>
@@ -133,6 +145,8 @@ import CryptoJS from "crypto-js";
 export default {
   name: "ChildCAApply",
   data: () => ({
+    cantuse:false,
+    value: 0,
     authority: "",
     justiceID: "",
     admin: "",
@@ -150,6 +164,87 @@ export default {
     Download,
   },
   methods: {
+    change() {
+      console.log(this.value);
+      if (this.value === true) {
+        console.log("执行这里");
+        this.publickey="";
+        this.cantuse =true;
+      } else {
+        console.log("执行那里");
+        this.cantuse =false;
+      }
+      console.log(this.mcolor);
+    },
+
+    submit(){
+      //自动分发公钥
+      if(this.value===true){
+        console.log("自动分发");
+          this.autoClick();
+      }
+      //手动生成公钥
+      else{
+        this.onClick();
+        console.log("主动分发");
+
+      }
+    },
+    autoClick(){
+      const adminpublickey = this.store.publickey
+      const jsHttps = new JsHttps();
+      const myRequestData={
+        juridicalperson:this.juridicalperson,
+        username:this.store.username,
+        authority:this.authority,
+        justiceID:this.justiceID,
+        admin:this.admin,
+        adminphone:this.adminphone,
+        years:this.years,
+        // publickey:this.publickey,
+      }
+      var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+      const mac={
+        mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+      }
+      const resdata={
+        data:encdata,
+        resmac:mac
+      }
+      axios.post(APIS.wopka,
+          resdata
+      ).then(res => {
+        console.log(res)
+        var mydata=jsHttps.decryptResponseData(res.data);
+        console.log(mydata)
+        const myRequestData={
+          publickey:mydata.pubkey,
+          privatekey:mydata.prikey,
+        }
+        var encdata=jsHttps.encryptRequestData(myRequestData, adminpublickey)
+        const mac={
+          mac:CryptoJS.SHA1(encdata.bodyCipher).toString()
+        }
+        const resdata={
+          data:encdata,
+          resmac:mac
+        }
+
+        var url= "http://192.168.0.106:10250/api/getkey"
+        axios.post(url,
+          resdata
+        ).then(res=>{
+
+          this.dialogVisible = true;
+        })
+
+
+      }).catch(reason => {
+        console.log(reason);
+      }).finally(() => {
+        console.log("FINALLY");
+      })
+    },
     onClick() {
       const adminpublickey = this.store.publickey
       const jsHttps = new JsHttps();
@@ -171,8 +266,6 @@ export default {
         data:encdata,
         resmac:mac
       }
-
-
       axios.post(APIS.apply,
          resdata
       ).then(res => {
